@@ -75,6 +75,12 @@ class Barangmasuk_m extends CI_Model{
     	$this->db->query("UPDATE p_item SET stock = '$stock' WHERE barcode = '$barcode'");
     }
 
+    public function sum($table, $field)
+    {
+        $this->db->select_sum($field);
+        return $this->db->get($table)->row_array()[$field];
+    }
+
 
 
 

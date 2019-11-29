@@ -62,4 +62,16 @@ class Item_m extends CI_Model{
         $this->db->join('p_unit u', 'p_item.unit_id=p_unit.unit_id');
         return $this->db->get_where('barang b', ['barcode' => $id])->row_array();
     }
+
+    public function count($table)
+    {
+    	return $this->db->count_all($table);
+    }
+
+    public function min($table, $field, $min)
+    {
+        $field = $field . ' <=';
+        $this->db->where($field, $min);
+        return $this->db->get($table)->result_array();
+    }
 }

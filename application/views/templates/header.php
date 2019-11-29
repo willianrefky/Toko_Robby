@@ -7,10 +7,6 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
   <link rel="stylesheet" href="<?= site_url('assets/') ?>plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -39,5 +35,6 @@
 
   <!-- DataTables -->
   <link rel="stylesheet" href="<?= site_url(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-<script src="<?= site_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
-
+  <script src="<?= site_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+<!-- Chart -->
+<link rel="stylesheet" type="text/css" href="<?= site_url(); ?>assets/chartjs/Chart.min.css">

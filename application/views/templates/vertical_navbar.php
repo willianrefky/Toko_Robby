@@ -3,7 +3,7 @@
     <a href="index3.html" class="brand-link">
       <img src="<?= site_url('assets/') ?>dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Toko Robby</span>
     </a>
 
     <!-- Sidebar -->
@@ -85,7 +85,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
+                <a href="<?= site_url('barangkeluar') ?>" class="nav-link <?=$this->uri->segment(1) == 'barangkeluar' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Barang Keluar</p>
                 </a>
@@ -95,7 +95,7 @@
 
           <!-- Laporan -->
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link <?=$this->uri->segment(1) == 'laporan'  ? 'active' : ''?>">
               <i class="nav-icon fas fa-archive"></i>
               <p>
                 Laporan
@@ -104,15 +104,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="<?= site_url('laporan/laporan_masuk') ?>" class="nav-link <?=$this->uri->segment(1) == 'laporan' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Migguan</p>
+                  <p>Laporan Barang Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/layout/boxed.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Bulanan</p>
+                  <p>Laporan Barang Keluar</p>
                 </a>
               </li>
             </ul>

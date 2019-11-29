@@ -43,4 +43,8 @@ class Supplier_m extends CI_Model {
 		$this->db->delete('supplier');
 	}
 
+	public function count($table)
+	{
+		return $this->db->count_all($table);
+	}
 }
