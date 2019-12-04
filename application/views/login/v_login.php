@@ -1,3 +1,9 @@
+<?php 
+	// Cek apakah terdapat session bernama message
+	if($this->session->flashdata('alert')){ // Jika terdapat session message
+		echo $this->session->flashdata('alert'); // Tampilkan pesan
+	}
+?>
 </head>
 <body class="hold-transition login-page">
 	<div class="login-box">

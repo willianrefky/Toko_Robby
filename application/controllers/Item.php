@@ -6,7 +6,13 @@ class Item extends CI_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		// check_not_login();
+		
+        // jika user belum login, arahkan ke halaman login
+        if($this->session->userdata('status') != "login"){
+            $this->session->set_flashdata("alert", "<script>alert('Login terlebih dahulu!');</script>"); // session flash data, ditampilkan jika user mencoba membuka halaman tertentu.
+            redirect(base_url("login"));
+        }  
+        
 		$this->load->model(['item_m', 'kategori_m', 'unit_m']);
 	}
 

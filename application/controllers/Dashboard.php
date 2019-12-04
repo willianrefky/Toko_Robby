@@ -9,8 +9,10 @@ class Dashboard extends CI_Controller {
         parent::__construct();
 
         // jika user belum login, arahkan ke halaman login
-        if($this->session->userdata('status') != "login")
+        if($this->session->userdata('status') != "login"){
+            $this->session->set_flashdata("alert", "<script>alert('Login terlebih dahulu!');</script>"); // session flash data, ditampilkan jika user mencoba membuka halaman tertentu.
             redirect(base_url("login"));
+        }        
 
         // load model
         $this->load->model(['barangmasuk_m', 'item_m', 'supplier_m', 'barangkeluar_m']);
