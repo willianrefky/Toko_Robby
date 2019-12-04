@@ -7,6 +7,12 @@ class Dashboard extends CI_Controller {
 	function __construct()
     {
         parent::__construct();
+
+        // jika user belum login, arahkan ke halaman login
+        if($this->session->userdata('status') != "login")
+            redirect(base_url("login"));
+
+        // load model
         $this->load->model(['barangmasuk_m', 'item_m', 'supplier_m', 'barangkeluar_m']);
     }
 
