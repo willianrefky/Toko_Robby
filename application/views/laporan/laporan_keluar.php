@@ -27,7 +27,7 @@
       <div class="tab-pane active" id="mingguan">
         <div class="card">
           <div class="card-header">
-            <h3 class="box-title">Data Barang Keluar Bulanan</h3><hr>
+            <h3 class="box-title">Data Barang Keluar Harian</h3><hr>
             <form method="post" action="">
               <div class="col-md-4">
                 <div class="form-group">
@@ -54,11 +54,11 @@
       <div class="tab-pane" id="bulanan">
         <div class="card">
           <div class="card-header">
-            <h3 class="box-title">Data Barang Masuk Bulanan</h3><hr>
+            <h3 class="box-title">Data Barang Keluar Bulanan</h3><hr>
             <form method="post" action="">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label>Bulan Barang Masuk*</label>
+                  <label>Barang Keluar Bulanan*</label>
                   <div class="input-group">
                     <input type="month" class="form-control" name="bulan_keluar" id="bulan_keluar">  
                       <div class="input-group-append">

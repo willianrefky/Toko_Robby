@@ -14,7 +14,7 @@
           <img src="<?= site_url('assets/') ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Robby</a>
+          <a href="#" class="d-block"><?= $this->session->userdata('username');?></a>
         </div>
       </div>
 
@@ -104,19 +104,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= site_url('laporan/laba') ?>" class="nav-link <?=$this->uri->segment(1) == 'laporan' ? 'active' : ''?>">
+                <a href="<?= site_url('laporan/laba') ?>" class="nav-link <?=$this->uri->segment(2) == 'laba' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laba</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= site_url('laporan/laporan_masuk') ?>" class="nav-link <?=$this->uri->segment(1) == 'laporan' ? 'active' : ''?>">
+                <a href="<?= site_url('laporan/laporan_masuk') ?>" class="nav-link <?=$this->uri->segment(2) == 'laporan_masuk' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Barang Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= site_url('laporan/laporan_keluar') ?>" class="nav-link <?=$this->uri->segment(1) == 'laporan' ? 'active' : ''?>">
+                <a href="<?= site_url('laporan/laporan_keluar') ?>" class="nav-link <?=$this->uri->segment(2) == 'laporan_keluar' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Barang Keluar</p>
                 </a>

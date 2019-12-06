@@ -21,7 +21,7 @@
                       </div>
 
                       <hr>
-                      <label>pembelian</label>
+                      <label>Pembelian</label>
                       <input type="text" name="total-beli" id="total-beli"><hr>
                       <label>Penjualan</label>
                       <input type="text" name="total-jual" id="total-jual"><hr>

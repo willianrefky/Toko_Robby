@@ -175,7 +175,7 @@ class Barangkeluar extends CI_Controller{
 			);
 			if($get->stock < 5){
 			$this->session->set_flashdata('error', "Stok kurang dari 5, tidak bisa melanjutkan Transaksi");
-			redirect('barangkeluar/add', );
+			redirect('barangkeluar/add');
 
 			}else{
 
