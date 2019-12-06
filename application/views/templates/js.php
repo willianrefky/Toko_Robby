@@ -52,6 +52,8 @@
 <!-- DataTables -->
 <script src="<?= site_url(); ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= site_url(); ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <script>
   $(function () {
@@ -66,7 +68,7 @@
     });
   });
 </script>
-<script>
+<!-- <script>
 var ctx = document.getElementById('myChart').getContext('2d');
 
 var myChart = new Chart(ctx, {
@@ -82,7 +84,13 @@ var myChart = new Chart(ctx, {
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(213, 191, 238, 0.9)',
+                'rgba(227, 216, 201, 1)',
+                'rgba(253, 196, 196, 1)',
+                'rgba(235, 248, 180, 1)',
+                'rgba(194, 242, 250, 1)',
+                'rgba(55, 156, 190, 0.47)'
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -105,7 +113,7 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-</script>
+</script> -->
 <script type="text/javascript">
     function datatransaksi($trbarang) {
       var query = $trbarang;
@@ -121,36 +129,159 @@ var myChart = new Chart(ctx, {
     }
 </script>
 
-<!-- Cari Tanggal -->
+<!-- Cari Tanggal masuk -->
 <script type="text/javascript">
   $(document).ready(function() {
     $('#search-data-tanggal').on('click', function(){
       var search = $('#tanggal_masuk').val()
       if(search != ''){
+        console.log(search)
         caritanggal(search)
       } else {
         $('#returnlaporantanggalmasuk').html('')
       }
     })
-    
-    caritanggal(today('-'))
+
+    $('#search-data-bulan').on('click', function(){
+      var search = $('#bulan_masuk').val()
+      if(search != ''){
+        console.log(search)
+        caribulan(search)
+      } else {
+        $('#returnlaporanbulanmasuk').html('')
+      }
+    })
 
     function caritanggal($query){
+      var query = $query;
+
       $.ajax({
-        url:"<?php echo base_url();?>Laporan/data",
+        url:"<?php echo base_url(); ?>Laporan/data",
         method:"POST",
         data:{query:query},
         success:function(data){
-          $('#returnlaporanmasuk').html(data)
+          $('#returnlaporantanggalmasuk').html(data)
+        }
+      })
+    }
+
+    function caribulan($query){
+      var query = $query;
+
+      $.ajax({
+        url:"<?php echo base_url(); ?>Laporan/data",
+        method:"POST",
+        data:{query:query},
+        success:function(data){
+          $('#returnlaporanbulanmasuk').html(data)
         }
       })
     }
   })
 </script>
 
-<!-- Cari Bulan -->
+
+<!-- js laporan barang keluar -->
 <script type="text/javascript">
-  
+  $(document).ready(function() {
+    $('#search-data-tanggal-dua').on('click', function(){
+      var search = $('#tanggal_keluar').val()
+      if(search != ''){
+        console.log(search)
+        caritanggalkeluar(search)
+      } else {
+        $('#returnlaporanhariankeluar').html('')
+      }
+    })
+
+
+    function caritanggalkeluar($query){
+      var query = $query;
+      
+      $.ajax({
+        url:"<?php echo base_url(); ?>Laporan/data_dua",
+        method:"POST",
+        data:{query:query},
+        success:function(data){
+          $('#returnlaporanhariankeluar').html(data)
+        }
+      })
+    }
+
+    function caribulan($query){
+      var query = $query;
+
+      $.ajax({
+        url:"<?php echo base_url(); ?>Laporan/data",
+        method:"POST",
+        data:{query:query},
+        success:function(data){
+          $('#returnlaporanbulanmasuk').html(data)
+        }
+      })
+    }
+  })
+</script>
+
+<!-- function total laba -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#search-laba-bulanan').on('click', function(){
+      var search = $('#input-bulanan').val()
+      if(search != ''){
+        console.log(search)
+        caripembelian(search)
+        caripenjualan(search)
+        totallaba(search)
+
+        // var beli = $('#total-beli').val();
+        // var jual = $('#total-jual').val();
+        // var totallaba = jual-beli;
+        // console.log(totallaba)
+        // $('#total-laba').val(totallaba);
+      }
+    })
+  });
+
+  function caripembelian($search) {
+    var search = $search;
+
+    $.ajax({
+      url:"<?php echo base_url(); ?>Laporan/totalpembelian",
+      method:"POST",
+      data:{search:search},
+      success:function(data){
+        $('#total-beli').val(data);
+      }
+    })
+  }
+
+  function caripenjualan($search) {
+    var search = $search;
+
+    $.ajax({
+      url:"<?php echo base_url(); ?>Laporan/totalpenjualan",
+      method:"POST",
+      data:{search:search},
+      success:function(data){
+        $('#total-jual').val(data);
+      }
+    })
+  }
+
+  function totallaba($search) {
+    var search = $search;
+
+    $.ajax({
+      url:"<?php echo base_url(); ?>Laporan/totallaba",
+      method:"POST",
+      data:{search:search},
+      success:function(data){
+        $('#total-laba').val(data);
+      }
+    })
+  }
+
 </script>
 
 
