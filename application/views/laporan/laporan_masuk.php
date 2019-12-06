@@ -19,8 +19,7 @@
   <div class="card-header d-flex p-0">
     <h3 class="card-title p-3">Laporan Barang Masuk</h3>
     <ul class="nav nav-pills ml-auto p-2">
-      <li class="nav-item"><a class="nav-link active" href="#mingguan" data-toggle="tab">Mingguan</a></li>
-      <li class="nav-item"><a class="nav-link" href="#bulanan" data-toggle="tab">Bulanan</a></li>
+      <li class="nav-item"><a class="nav-link active" href="#mingguan" data-toggle="tab">Bulanan</a></li>
   </div><!-- /.card-header -->
   <div class="card-body">
     <div class="tab-content">
@@ -31,13 +30,29 @@
             <form method="post" action="">
               <div class="col-md-4">
                 <div class="form-group">
-                  <label>Tanggal Barang Masuk*</label>
-                  <div class="input-group">
-                    <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk">  
-                      <div class="input-group-append">
-                        <button class="btn btn-primary btn-sm" id="search-data-tanggal">Cari</button>
-                      </div>
-                  </div>
+                  <label>Bulan</label>
+                  <select class="form-control" name="month">
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                  </select>
+                  <label>Tahun</label>
+                  <?php $year = 2000; ?>
+                  <?php $ylast = date("Y") + 10; ?>
+                  <select class="form-control" name="month">
+                    <?php for ($y = $year; $y <= $ylast; $y++){
+                      echo "<option value = '$y'>$y</option>";
+                    } ?>
+                  </select>
                 </div>
               </div>
             </form>
@@ -48,10 +63,9 @@
             <table  class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>No Transaksi</th>
-                  <th>Nama Barang</th>
-                  <th>Nama Supplier</th>
+                  <th>ID Barang Masuk</th>
+                  <th>Barcode</th>
+                  <th>Supplier ID</th>
                   <th>Jumlah Masuk</th>
                   <th>Tanggal Masuk</th>
                 </tr>
