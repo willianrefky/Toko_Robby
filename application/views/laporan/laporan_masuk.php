@@ -26,33 +26,45 @@
       <div class="tab-pane active" id="mingguan">
         <div class="card">
           <div class="card-header">
-            <h3 class="box-title">Data Barang Masuk Harian</h3><hr>
-            <form method="post" action="">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Bulan</label>
-                  <select class="form-control" name="month">
-                    <option value="01">Januari</option>
-                    <option value="02">Februari</option>
-                    <option value="03">Maret</option>
-                    <option value="04">April</option>
-                    <option value="05">Mei</option>
-                    <option value="06">Juni</option>
-                    <option value="07">Juli</option>
-                    <option value="08">Agustus</option>
-                    <option value="09">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">November</option>
-                    <option value="12">Desember</option>
-                  </select>
-                  <label>Tahun</label>
-                  <?php $year = 2000; ?>
-                  <?php $ylast = date("Y") + 10; ?>
-                  <select class="form-control" name="month">
-                    <?php for ($y = $year; $y <= $ylast; $y++){
-                      echo "<option value = '$y'>$y</option>";
-                    } ?>
-                  </select>
+            <h3 class="box-title">Data Barang Masuk Bulanan</h3><hr>
+            <form method="post" action="<?= base_url('laporan/data_barang_masuk'); ?>">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Bulan</label>
+                    <select class="form-control" name="month">
+                      <option value=""> --- Pilih Bulan --- </option>
+                      <option value="01">Januari</option>
+                      <option value="02">Februari</option>
+                      <option value="03">Maret</option>
+                      <option value="04">April</option>
+                      <option value="05">Mei</option>
+                      <option value="06">Juni</option>
+                      <option value="07">Juli</option>
+                      <option value="08">Agustus</option>
+                      <option value="09">September</option>
+                      <option value="10">Oktober</option>
+                      <option value="11">November</option>
+                      <option value="12">Desember</option>
+                    </select>
+                    <label>Tahun</label>
+                    <?php $year = 2000; ?>
+                    <?php $ylast = date("Y") + 10; ?>
+                    <select class="form-control" name="year">
+                      <option value=""> --- Pilih Tahun --- </option>
+                      <?php for ($y = $year; $y <= $ylast; $y++){
+                        echo "<option value = '$y'>$y</option>";
+                      } ?>
+                    </select>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <button name="query" type="submit" class="btn btn-primary pl-5 pr-5"><i class="fa fa-search"></i>  Cari </button>
+                    </div>
+                    <div class="col-sm-6">
+                      <button name="print" type="submit" class="btn btn-danger pl-5 pr-5"><i class="fa fa-print"></i>Cetak</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
@@ -65,12 +77,15 @@
                 <tr>
                   <th>ID Barang Masuk</th>
                   <th>Barcode</th>
-                  <th>Supplier ID</th>
+                  <th>Item</th>
                   <th>Jumlah Masuk</th>
+                  <th>Supplier ID</th>
+                  <th>Nama Supplier</th>
                   <th>Tanggal Masuk</th>
                 </tr>
               </thead>
-              <tbody> 
+              <tbody>
+
               <!-- <tr>
                 <td>#</td>
                 <td>123</td>

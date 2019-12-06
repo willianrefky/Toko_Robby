@@ -104,13 +104,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= site_url('laporan/laporan_masuk') ?>" class="nav-link <?=$this->uri->segment(1) == 'laporan' ? 'active' : ''?>">
+                <a href="<?= site_url('laporan/laporan_masuk') ?>" class="nav-link <?=$this->uri->segment(2) == 'laporan_masuk' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Barang Masuk</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
+                <a href="<?= site_url('laporan/laporan_keluar')?>" class="nav-link <?=$this->uri->segment(2) == 'laporan_keluar' ? 'active' : ''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Barang Keluar</p>
                 </a>
