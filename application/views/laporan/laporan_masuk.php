@@ -28,7 +28,7 @@
         <div class="card">
           <div class="card-header">
             <h3 class="box-title">Data Barang Masuk Harian</h3><hr>
-            <form method="post" action="">
+            <form method="post" action="<?= base_url('laporan_pdf/laporan_masuk_harian_pdf');?>">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
@@ -36,13 +36,13 @@
                     <div class="input-group">
                       <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk">  
                       <div class="input-group-append">
-                        <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal">Cari</a>
+                        <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal"><i class="fa fa-search"></i> Cari</a>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-4" style="margin-top: 31px;">
-                  <button class="btn btn-danger btn-sm pt-2 pb-2 pl-3 pr-3 text-white" name="cetak-data"><i class="fa fa-print"></i></button>
+                  <button type="submit" class="btn btn-danger btn-sm pt-2 pb-2 pl-3 pr-3 text-white" name="cetak-data"><i class="fa fa-print"></i> Cetak</button>
                 </div>
               </div>
             </form>
@@ -60,16 +60,21 @@
         <div class="card">
           <div class="card-header">
             <h3 class="box-title">Data Barang Masuk Bulanan</h3><hr>
-            <form method="post" action="">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Bulan Barang Masuk*</label>
-                  <div class="input-group">
-                    <input type="month" class="form-control" name="bulan_masuk" id="bulan_masuk">  
+            <form method="post" action="<?= base_url('laporan_pdf/laporan_masuk_bulanan_pdf');?>">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Bulan Barang Masuk*</label>
+                    <div class="input-group">
+                      <input type="month" class="form-control" name="bulan_masuk" id="bulan_masuk">  
                       <div class="input-group-append">
-                        <a class="btn btn-primary btn-sm" id="search-data-bulan">Cari</a>
+                        <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan"><i class="fa fa-search"></i> Cari</a>
                       </div>
+                    </div>
                   </div>
+                </div>
+                <div class="col-md-3" style="margin-top: 31px;">
+                  <button type="submit" class="btn btn-danger btn-sm pt-2 pb-2 pl-3 pr-3 text-white" name="cetak-data"><i class="fa fa-print"></i> Cetak</button>
                 </div>
               </div>
             </form>

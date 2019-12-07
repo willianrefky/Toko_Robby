@@ -28,16 +28,21 @@
         <div class="card">
           <div class="card-header">
             <h3 class="box-title">Data Barang Keluar Harian</h3><hr>
-            <form method="post" action="">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Tanggal Barang Keluar*</label>
-                  <div class="input-group">
-                    <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar">  
-                      <div class="input-group-append">
-                        <a class="btn btn-primary btn-sm" id="search-data-tanggal-dua">Cari</a>
-                      </div>
+            <form method="post" action="<?= base_url('laporan_pdf/laporan_keluar_harian_pdf');?>">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Tanggal Barang Keluar*</label>
+                    <div class="input-group">
+                      <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar">  
+                        <div class="input-group-append">
+                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal-dua"><i class="fa fa-search"></i> Cari</a>
+                        </div>
+                    </div>
                   </div>
+                </div>
+                <div class="col-md-4" style="margin-top: 31px;">
+                  <button type="submit" class="btn btn-danger btn-sm pt-2 pb-2 pl-3 pr-3 text-white" name="cetak-data"><i class="fa fa-print"></i> Cetak</button>
                 </div>
               </div>
             </form>
@@ -55,16 +60,21 @@
         <div class="card">
           <div class="card-header">
             <h3 class="box-title">Data Barang Keluar Bulanan</h3><hr>
-            <form method="post" action="">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Barang Keluar Bulanan*</label>
-                  <div class="input-group">
-                    <input type="month" class="form-control" name="bulan_keluar" id="bulan_keluar">  
-                      <div class="input-group-append">
-                        <a class="btn btn-primary btn-sm" id="search-data-bulan">Cari</a>
-                      </div>
+            <form method="post" action="<?= base_url('laporan_pdf/laporan_keluar_bulanan_pdf');?>">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Barang Keluar Bulanan*</label>
+                    <div class="input-group">
+                      <input type="month" class="form-control" name="bulan_keluar" id="bulan_keluar">  
+                        <div class="input-group-append">
+                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan"><i class="fa fa-search"></i> Cari</a>
+                        </div>
+                    </div>
                   </div>
+                </div>
+                <div class="col-md-3" style="margin-top: 31px;">
+                  <button type="submit" class="btn btn-danger btn-sm pt-2 pb-2 pl-3 pr-3 text-white" name="cetak-data"><i class="fa fa-print"></i> Cetak</button>
                 </div>
               </div>
             </form>
