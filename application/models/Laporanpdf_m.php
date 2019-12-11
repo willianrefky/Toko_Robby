@@ -34,4 +34,12 @@ class Laporanpdf_m extends CI_Model
 		$data = $this->db->get();
 		return $data;
 	}
+
+	function datakeluar_harian($tglkeluar) {
+		$this->db->select('barang_keluar.id_barang_keluar as id_barang_keluar, barang_keluar.tanggal_keluar as tanggal_keluar, barang_keluar.harga as harga');
+		$this->db->from('barang_keluar');
+		$this->db->like('tanggal_keluar',$query);
+		$data = $this->db->get();
+		return $data;
+	}
 }

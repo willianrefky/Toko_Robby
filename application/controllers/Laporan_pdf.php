@@ -95,6 +95,39 @@ class Laporan_pdf extends CI_Controller{
 		$pdf->Output();
 	}
 
+	public function laporan_keluar_harian_pdf ()
+	{
+		$pdf = new FPDF('P','mm','A4');
+		// membuat halaman baru
+		$pdf->AddPage();
+		// setting jenis font yang akan digunakan
+		$pdf->SetFont('Times','B',16);
+		// mencetak string
+		$pdf->Cell(190,7,'Laporan Barang Keluar Harian Toko Robby',0,1,'C');
+		// memberikan space ke bawah
+		$pdf->Cell(3,7,'',0,1);
+		$pdf->SetFont('Times','','10');
+		$pdf->Cell(20,7,"Tanggal:",0,0);
+		$pdf->Cell(20,7,date("d-m-Y"),0,1);
+		$pdf->SetFont('Times','B','10');
+		$pdf->Cell(8,7,'No.',1,0);
+		$pdf->Cell(40,7,'No. Transaksi Keluar',1,0);
+		$pdf->Cell(25,7,'Tanggal Keluar',1,1);
+		$pdf->Cell(25,7,'Harga Total',1,1);
+		$pdf->SetFont('Times','','10');
+		$tglkeluar = $this->input->post('tanggal_keluar');
+		$data = $this->laporanpdf_m->datakeluar_harian($tglkeluar)->result();
+		$no = 0;
+		foreach ($data as $row) {
+			$no++;
+			$pdf->Cell(8,7,$no,1,0);
+			$pdf->Cell(40,7,$row->id_barang_keluar,1,0);
+			$pdf->Cell(30,7,$row->tanggal_keluar,1,0);
+			$pdf->Cell(30,7,$row->harga,1,1);
+		}
+		$pdf->Output();
+	}
+
 	public function laporan_laba_pdf()
 	{
 		$pdf = new FPDF('P','mm','A4');
