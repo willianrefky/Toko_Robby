@@ -88,6 +88,11 @@ class Laporan extends CI_Controller {
 		{
 			$query = $this->input->post('query');
 		}
+
+		$querykeluar = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$query%'")->row_array();
+		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$query%'")->row_array();
+		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
+
 		$data = $this->laporan_m->fetch_data_dua($query);
 		$output = '
 		<table  class="table table-bordered table-striped">
@@ -124,8 +129,22 @@ class Laporan extends CI_Controller {
 			</tr>
 			';
 		}
-		$output .= '</tbody>
+		if ($querydata == 0) {
+			$output .= '<tr class="gradeA">
+            			<td colspan="4">L A B A</td>
+            			<td>Rp. 0</td>
+			        </tr>
+			        </tbody>
             </table>';
+		} else {
+			$output .= '<tr class="gradeA">
+            			<td colspan="4">L A B A</td>
+            			<td>Rp. '.number_format($querydata).'</td>
+			        </tr>
+			        </tbody>
+            </table>';
+		}
+		
 		echo $output;
 	}
 
@@ -138,25 +157,6 @@ class Laporan extends CI_Controller {
 		$this->load->view('Templates/master_dashboard', $data);
 	}
 
-	//total pembelian penjualan
-	public function totalpembelian() {
-		$search = $this->input->post('search');
-
-		$query = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$search%'");
-		$querydata = $query->row_array();
-		$output = $querydata['totalbulanmasuk'];
-		echo $output;
-	}
-
-	public function totalpenjualan() {
-		$search = $this->input->post('search');
-
-		$query = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$search%'");
-		$querydata = $query->row_array();
-		$output = $querydata['totalbulankeluar'];
-		echo $output;
-	}
-
 	public function totallaba() {
 		$search = $this->input->post('search');
 
@@ -165,7 +165,23 @@ class Laporan extends CI_Controller {
 
 		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
 		$output = $querydata;
-		echo $output;
+
+		$hello = [
+			'penjualan' => $this->_formatrupiah($querykeluar['totalbulankeluar']),
+			'pembelian' => $this->_formatrupiah($querymasuk['totalbulanmasuk']),
+			'laba' => $this->_formatRupiah($querydata),
+			'keterangan' => 'laba'
+		];
+
+		if($querykeluar['totalbulankeluar'] < $querymasuk['totalbulanmasuk']){
+			$hello['keterangan'] = 'Rugi';
+		}
+
+		print_r(json_encode($hello));
+	}
+	private function _formatRupiah($angka){
+		$res = "Rp." . number_format($angka,2,',','.');
+		return $res;	
 	}
 
 }

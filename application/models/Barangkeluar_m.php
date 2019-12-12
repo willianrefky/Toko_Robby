@@ -103,5 +103,12 @@ class Barangkeluar_m extends CI_Model{
 		return $this->db->count_all($table);
 	}
 
+	public function grafik($bulan)
+	{
+		$bulankeluar = date('Y')."-".$bulan;
+		$query = $this->db->query("SELECT COUNT(id_barang_keluar) as brgkeluar FROM barang_keluar WHERE tanggal_keluar LIKE '%$bulankeluar%'");
+		return $query;
+	}
+
 	
 }

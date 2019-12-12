@@ -68,7 +68,7 @@
                     <div class="input-group">
                       <input type="month" class="form-control" name="bulan_keluar" id="bulan_keluar">  
                         <div class="input-group-append">
-                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan"><i class="fa fa-search"></i> Cari</a>
+                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan-dua"><i class="fa fa-search"></i> Cari</a>
                         </div>
                     </div>
                   </div>
@@ -82,7 +82,7 @@
 
           <!-- /.card-header -->
           <div class="card-body">
-            <div id="returnlaporanbulanmasuk"></div>
+            <div id="returnlaporanbulankeluar"></div>
           </div>
           <!-- /.card-body -->
         </div>        

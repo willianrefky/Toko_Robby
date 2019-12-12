@@ -111,4 +111,22 @@ class Barangmasuk_m extends CI_Model{
 	 	return $this->db->get()->result();
 	 }
 
+	public function getBarangMasuk($limit = null)
+	{
+		$this->db->select('barang_masuk.id_barang_masuk, barang_masuk.jumlah_masuk, barang_masuk.tanggal_masuk, p_item.name');
+		$this->db->join('p_item', 'p_item.barcode = barang_masuk.barcode');
+		if($limit != null){
+			$this->db->limit($limit);
+		}
+		$this->db->order_by('id_barang_masuk', 'DESC');	
+		return $this->db->get('barang_masuk')->result_array();
+	} 
+
+	public function grafik($bulan)
+	{
+		$bulanini = date('Y')."-".$bulan;
+		$query = $this->db->query("SELECT COUNT(id_barang_masuk) as brgmasuk FROM barang_masuk WHERE tanggal_masuk LIKE '%$bulanini%'");
+		return $query;
+	}
+
 }

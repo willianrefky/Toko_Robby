@@ -14,22 +14,37 @@
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
-<div class="card">
-  <form action="<?= base_url('laporan_pdf/laporan_laba_pdf');?>">
-    <input type="month" class="form-control" name="input-bulanan" id="input-bulanan">
-    <div class="input-group-append">
-      <a class="btn btn-primary btn-sm text-white mt-1 ml-2" id="search-laba-bulanan"><i class="fa fa-search"></i> Cari</a>
-      <button type="submit" class="btn btn-danger btn-sm text-white mt-1 ml-2" name="cetak-data"><i class="fa fa-print"></i> Cetak</button>
+
+    <div class="row">
+      <div class="col-md-6 col-md-offset-4">
+        <div class="card card-info">
+            <div class="card-header">
+              <h3 class="card-title">Laba atau Keuntungan</h3>
+            </div>
+            <div class="card-body">
+              
+              <div class="form-group">
+                <label>Cari Bulan:</label>
+                <input type="month" name="input-bulanan" id="input-bulanan" class="form-control my-colorpicker1 colorpicker-element">
+              </div>
+
+              <div class="form-group">
+                <label>Pembelian:</label>
+                <input type="text"  name="total-beli" id="total-beli" class="form-control my-colorpicker1 colorpicker-element" readonly="readonly" >
+              </div>
+
+              <div class="form-group">
+                <label>Pejualan:</label>
+                  <input type="text"  name="total-jual" id="total-jual" class="form-control" readonly="readonly">
+              </div>
+
+              <div class="form-group">
+                <label class="ket">Laba:</label>
+                  <input type="text" name="total-laba" id="total-laba" class="form-control datetimepicker-input" readonly="readonly" >
+              </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+      </div>
     </div>
-  </form>
 
-  <hr>
-  <label>Pembelian</label>
-  <input type="text" class="form-control" name="total-beli" id="total-beli" readonly=""><hr>
-  <label>Penjualan</label>
-  <input type="text" class="form-control" name="total-jual" id="total-jual" readonly=""><hr>
-  <label>Laba</label>
-  <input type="text" class="form-control" name="total-laba" id="total-laba" readonly="">
-
-                      
-</div>

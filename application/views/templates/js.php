@@ -68,16 +68,31 @@
     });
   });
 </script>
-<!-- <script>
-var ctx = document.getElementById('myChart').getContext('2d');
 
-var myChart = new Chart(ctx, {
+
+<!-- js untuk grafik barang masuk -->
+<script>
+var ctx = document.getElementById('brgmasukcrt').getContext('2d');
+var mjanuari = $('#inpjanuari').val();
+var mfebruari = $('#inpfebruari').val();
+var mmaret = $('#inpmaret').val();
+var mapril = $('#inpapril').val();
+var mmei = $('#inpmei').val();
+var mjuni = $('#inpjuni').val();
+var mjuli = $('#inpjuli').val();
+var magustus = $('#inpagustus').val();
+var mseptember = $('#inpseptember').val();
+var moktober = $('#inpoktober').val();
+var mnovember = $('#inpnovember').val();
+var mdesember =$('#inpdesember').val();
+
+var brgmasukcrt = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: ['Januari', 'Februari', 'Maret', 'Appril', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3, 6, 7 ,4 ,6 ,2, 10],
+            label: 'Transaksi Barang Masuk',
+            data: [mjanuari, mfebruari, mmaret, mapril, mmei, mjuni, mjuli, magustus, mseptember, moktober, mnovember, mdesember],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -113,7 +128,69 @@ var myChart = new Chart(ctx, {
         }
     }
 });
-</script> -->
+</script>
+
+<!-- js untuk grqafik barang keluar -->
+<script>
+var ctx = document.getElementById('brgkeluarcrt').getContext('2d');
+var kjanuari = $('#outjanuari').val();
+var kfebruari = $('#outfebruari').val();
+var kmaret = $('#outmaret').val();
+var kapril = $('#outapril').val();
+var kmei = $('#outmei').val();
+var kjuni = $('#outjuni').val();
+var kjuli = $('#outjuli').val();
+var kagustus = $('#outagustus').val();
+var kseptember = $('#outseptember').val();
+var koktober = $('#outoktober').val();
+var knovember = $('#outnovember').val();
+var kdesember =$('#outdesember').val();
+
+var brgkeluarcrt = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Januari', 'Februari', 'Maret', 'Appril', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        datasets: [{
+            label: 'Transaksi Barang Masuk',
+            data: [kjanuari, kfebruari, kmaret, kapril, kmei, kjuni, kjuli, kagustus, kseptember, koktober, knovember, kdesember],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(213, 191, 238, 0.9)',
+                'rgba(227, 216, 201, 1)',
+                'rgba(253, 196, 196, 1)',
+                'rgba(235, 248, 180, 1)',
+                'rgba(194, 242, 250, 1)',
+                'rgba(55, 156, 190, 0.47)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+
+
 <script type="text/javascript">
     function datatransaksi($trbarang) {
       var query = $trbarang;
@@ -194,6 +271,16 @@ var myChart = new Chart(ctx, {
       }
     })
 
+    $('#search-data-bulan-dua').on('click', function(){
+      var search = $('#bulan_keluar').val()
+      if(search != ''){
+        console.log(search)
+        caribulankeluar(search)
+      }else{
+        $('#returnlaporanbulankeluar').html('')
+      }
+    })
+
 
     function caritanggalkeluar($query){
       var query = $query;
@@ -208,80 +295,56 @@ var myChart = new Chart(ctx, {
       })
     }
 
-    function caribulan($query){
+    function caribulankeluar($query){
       var query = $query;
 
       $.ajax({
-        url:"<?php echo base_url(); ?>Laporan/data",
+        url:"<?php echo base_url(); ?>Laporan/data_dua",
         method:"POST",
         data:{query:query},
         success:function(data){
-          $('#returnlaporanbulanmasuk').html(data)
+          $('#returnlaporanbulankeluar').html(data)
         }
       })
     }
   })
 </script>
 
-<!-- function total laba -->
+<!-- laba -->
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#search-laba-bulanan').on('click', function(){
-      var search = $('#input-bulanan').val()
-      if(search != ''){
-        console.log(search)
-        caripembelian(search)
-        caripenjualan(search)
-        totallaba(search)
 
-        // var beli = $('#total-beli').val();
-        // var jual = $('#total-jual').val();
-        // var totallaba = jual-beli;
-        // console.log(totallaba)
-        // $('#total-laba').val(totallaba);
+    $('#input-bulanan').on('change',function(){
+      const nilai = $(this).val();
+      const laba = $('#total-laba');
+      const jual = $('#total-jual');
+      const beli = $('#total-beli');
+      const ket = $('.ket');
+     
+      if(nilai !== ''){
+        $.ajax({
+          url: "<?php echo base_url(); ?>Laporan/totallaba",
+          type: 'post',
+          dataType: 'json',
+          data: {search: nilai},
+          
+          success: res => {
+            laba.val(res.laba);
+            jual.val(res.penjualan);
+            beli.val(res.pembelian);
+            ket.text(res.keterangan);
+            console.log(laba)
+          }
+        })
+      } else{
+        laba.val('');
+        jual.val('');
+        beli.val('');
+        ket.text('Laba');
       }
-    })
+
+    });
   });
-
-  function caripembelian($search) {
-    var search = $search;
-
-    $.ajax({
-      url:"<?php echo base_url(); ?>Laporan/totalpembelian",
-      method:"POST",
-      data:{search:search},
-      success:function(data){
-        $('#total-beli').val(data);
-      }
-    })
-  }
-
-  function caripenjualan($search) {
-    var search = $search;
-
-    $.ajax({
-      url:"<?php echo base_url(); ?>Laporan/totalpenjualan",
-      method:"POST",
-      data:{search:search},
-      success:function(data){
-        $('#total-jual').val(data);
-      }
-    })
-  }
-
-  function totallaba($search) {
-    var search = $search;
-
-    $.ajax({
-      url:"<?php echo base_url(); ?>Laporan/totallaba",
-      method:"POST",
-      data:{search:search},
-      success:function(data){
-        $('#total-laba').val(data);
-      }
-    })
-  }
-
 </script>
 
 
