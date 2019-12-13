@@ -8,7 +8,7 @@ class Barangmasuk_m extends CI_Model{
 	// 	// $this->db->join('supplier', 'barang_masuk.supplier_id = supplier.supplier_id');
 	// 	// $this->db->join('p_item', 'barang_masuk.barcode = p_item.barcode');
 	// 	// $this->db->join('p_unit', 'p_item.unit_id = p_unit.unit_id');
-		$this->db->select('barang_masuk.* ,p_item.name as item_name,supplier.name as supplier_name');
+		$this->db->select('barang_masuk.* ,p_item.name as item_name,supplier.name as supplier_name, p_item.price_in as price_in');
 		$this->db->from('barang_masuk');
 		$this->db->join('supplier', 'supplier.supplier_id = barang_masuk.supplier_id');
 		$this->db->join('p_item', 'p_item.barcode = barang_masuk.barcode');
@@ -19,20 +19,9 @@ class Barangmasuk_m extends CI_Model{
 		if($id != null){
 			$this->db->where('barcode', $id);
 		}
-		// if ($range != null) {
-  //           $this->db->where('tanggal_masuk' . ' >=', $range['mulai']);
-  //           $this->db->where('tanggal_masuk' . ' <=', $range['akhir']);
-  //       }
-
-  //       $this->db->order_by('id_barang_masuk', 'DESC');
-		// return $this->db->get('barang_masuk bm')->result_array();
 		$query = $this->db->get();
 		return $query;
 	}
-	// public function get1() {
-	// 	$query = $this->db->query("SELECT barang_masuk.id_barang_masuk, p_item.name as itemname, supplier.name as suppliername, barang_masuk.jumlah_masuk, barang_masuk.tanggal_masuk FROM p_item, supplier, barang_masuk WHERE barang_masuk.barcode = p_item.barcode AND barang_masuk.supplier_id = supplier.supplier_id");
-	// 	return $query->result();
-	// }
 
 	public function getMax($table, $field, $kode = null)
     {
@@ -49,20 +38,16 @@ class Barangmasuk_m extends CI_Model{
     }
 
     public function add($post) {
-  //   	$params = [
-		// 	'id_barang_masuk' => $post['id_barang_masuk'],
-		// 	'barcode' => $post['barcode'],
-		// 	'supplier_id' => $post['supplier_name'],
-		// 	'jumlah_masuk' => $post['jumlah_masuk'],
-		// 	'tanggal_masuk' => $post['date'],
-		// ];
-		// $this->db->insert('barang_masuk', $params);
+		$barcode = $post['barcode_barang'];
+		$harga = $this->db->query("SELECT price_in FROM p_item WHERE barcode= '$barcode'")->row_array();
+
 		$idbm = $post['id_barang_masuk'];
 		$brcd = $post['barcode_barang'];
 		$sn = $post['supplier_name'];
 		$jm = $post['jumlah_masuk'];
+		$totm = $post['jumlah_masuk']*$harga['price_in'];
 		$tm = $post['date'];
-		$this->db->query("INSERT INTO barang_masuk VALUES ('$idbm','$brcd','$sn','$jm','$tm')");
+		$this->db->query("INSERT INTO barang_masuk VALUES ('$idbm','$brcd','$sn','$jm', '$totm','$tm')");
     }
 
     public function checkstock($post) {

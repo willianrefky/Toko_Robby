@@ -37,7 +37,7 @@
 	                    <label>Barang</label>
 	                    <div class="input-group">
 	                    <input type="text" name="barcode_barang" id="barcode_barang" readonly required placeholder="Barcode Barang">
-	                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang">
+	                    <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Nama Barang" readonly>
 		                    <div class="input-group-append">
 	                            <a href=""class="btn btn-default input-group-text" data-toggle="modal" data-target="#modal-default">
 				                  Cari
@@ -58,8 +58,11 @@
 			<div class="col-md-6 col-md-offset-4">
 
                 	<div class="form-group">
-                    <label for="stok">Stok</label>
-                        <input readonly="readonly" id="stock" name="stok" type="text" class="form-control">
+	                    <label for="stok">Stok</label>
+	                    <div class="input-group">
+	                        <input readonly="readonly" id="stock" name="stok" type="text" class="form-control">
+	                        <input type="number" name="price_in" id="price_in" readonly class="form-control">
+	                    </div>
                 	</div>
 					<div class="form-group">
 						<label>Jumlah Masuk *</label>
@@ -147,10 +150,10 @@
 			<td><?= $data->name ?></td>
 			<td><?= $data->category_name ?></td>
 			<td><?= $data->unit_name ?></td>
-			<td><?= $data->price ?></td>
+			<td><?= $data->price_in ?></td>
 			<td><?= $data->stock ?></td>
 			<td class="text-center" width="160px">
-					<a href="#" class="btn btn-success btn-sm" onclick="databarang('<?= $data->barcode?>', '<?= $data->name?>', '<?= $data->unit_name?>', '<?= $data->stock?>')"  data-dismiss="modal">
+					<a href="#" class="btn btn-success btn-sm" onclick="databarang('<?= $data->barcode?>', '<?= $data->name?>', '<?= $data->unit_name?>', '<?= $data->stock?>', '<?= $data->price_in ?>')"  data-dismiss="modal">
 						<i class="fa fa-plus"></i>Tambah
 					</a>
 			</td>
@@ -181,10 +184,11 @@
 </script> -->
 
 <script type="text/javascript">
-	function databarang($barcode, $nama, $unit, $stock) {
+	function databarang($barcode, $nama, $unit, $stock, $price_in) {
 		$("#barcode_barang").val($barcode);
 		$("#nama_barang").val($nama);
 		$("#stock").val($stock);
+		$("#price_in").val($price_in)
 		document.getElementById("unit").innerHTML = $unit;
 	}
 </script>

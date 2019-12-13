@@ -2,7 +2,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Transaksi</h1>
+            <h1 class="m-0 text-dark">Item</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -35,6 +35,8 @@
 			<th>Nama Barang</th>
 			<th>Supplier</th>
 			<th>Jumlah Masuk</th>
+			<th>harga Beli</th>
+			<th>Total</th>
 			<th>Tanggal Masuk</th>
 			<th>Action</th>
 	    </tr>
@@ -48,6 +50,8 @@
 			<td><?= $data->item_name ?></td>
 			<td><?= $data->supplier_name ?></td>
 			<td><?= $data->jumlah_masuk ?></td>
+			<td>Rp. <?= number_format($data->price_in) ?></td>
+			<td>Rp. <?= number_format($data->total_masuk) ?></td>
 			<td><?= $data->tanggal_masuk ?></td>
 			<td class="text-center" width="160px">
 					<a href="<?= site_url('barangmasuk/del/'.$data->id_barang_masuk) ?>" onclick="return confirm('Apakah yakin hapus data?')" class="btn btn-danger btn-sm">
