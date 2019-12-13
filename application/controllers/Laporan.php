@@ -116,7 +116,7 @@ class Laporan extends CI_Controller {
 					<td>'.$no++ .'</td>
 					<td>'.$row->id_barang_keluar.'</td>
 					<td>'.$row->tanggal_keluar.'</td>
-					<td>'.$row->harga.'</td>
+					<td>Rp. '.number_format($row->harga).'</td>
 					<td>
 						<a href='.base_url('laporan/detail/'.$row->id_barang_keluar.'').'>detail</a>
 					</td>

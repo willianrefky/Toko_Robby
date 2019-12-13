@@ -112,9 +112,9 @@ class Laporan_pdf extends CI_Controller{
 		$pdf->SetFont('Times','B','10');
 		// tabel
 		$pdf->Cell(8,7,'No.',1,0);
-		$pdf->Cell(40,7,'No. Transaksi Keluar',1,0);
-		$pdf->Cell(40,7,'Tanggal Keluar',1,0);
-		$pdf->Cell(30,7,'Harga Total',1,1);
+		$pdf->Cell(60,7,'No. Transaksi Keluar',1,0);
+		$pdf->Cell(60,7,'Tanggal Keluar',1,0);
+		$pdf->Cell(50,7,'Harga Total',1,1);
 		$pdf->SetFont('Times','','10');
 		$tglkeluar = $this->input->post('tanggal_keluar');
 		$data = $this->laporanpdf_m->datakeluar_harian($tglkeluar)->result();
@@ -122,9 +122,9 @@ class Laporan_pdf extends CI_Controller{
 		foreach ($data as $row) {
 			$no++;
 			$pdf->Cell(8,7,$no,1,0);
-			$pdf->Cell(40,7,$row->id_barang_keluar,1,0);
-			$pdf->Cell(40,7,$row->tanggal_keluar,1,0);
-			$pdf->Cell(30,7,$row->harga,1,1);
+			$pdf->Cell(60,7,$row->id_barang_keluar,1,0);
+			$pdf->Cell(60,7,$row->tanggal_keluar,1,0);
+			$pdf->Cell(50,7,$row->harga,1,1);
 		}
 		$pdf->Output();
 	}
@@ -146,9 +146,9 @@ class Laporan_pdf extends CI_Controller{
 		$pdf->SetFont('Times','B','10');
 		// tabel
 		$pdf->Cell(8,7,'No.',1,0);
-		$pdf->Cell(40,7,'No. Transaksi Keluar',1,0);
-		$pdf->Cell(40,7,'Tanggal Keluar',1,0);
-		$pdf->Cell(30,7,'Harga Total',1,1);
+		$pdf->Cell(60,7,'No. Transaksi Keluar',1,0);
+		$pdf->Cell(60,7,'Tanggal Keluar',1,0);
+		$pdf->Cell(60,7,'Harga Total',1,1);
 		$pdf->SetFont('Times','','10');
 		$blnkeluar = $this->input->post('bulan_keluar');
 		$data = $this->laporanpdf_m->datakeluar_bulanan($blnkeluar)->result();
@@ -156,9 +156,9 @@ class Laporan_pdf extends CI_Controller{
 		foreach ($data as $row) {
 			$no++;
 			$pdf->Cell(8,7,$no,1,0);
-			$pdf->Cell(40,7,$row->id_barang_keluar,1,0);
-			$pdf->Cell(40,7,$row->tanggal_keluar,1,0);
-			$pdf->Cell(30,7,$row->harga,1,1);
+			$pdf->Cell(60,7,$row->id_barang_keluar,1,0);
+			$pdf->Cell(60,7,$row->tanggal_keluar,1,0);
+			$pdf->Cell(60,7,$row->harga,1,1);
 		}
 		$pdf->Output();
 	}
