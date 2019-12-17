@@ -12,7 +12,7 @@ class Laporan extends CI_Controller {
             redirect(base_url("login"));
         }
 
-		$this->load->model('laporan_m');
+		$this->load->model(['laporan_m', 'barangkeluar_m']);
 	}
 	public function laporan_masuk()
 	{
@@ -26,6 +26,16 @@ class Laporan extends CI_Controller {
 	{
 		$data = [
 			'isi' => 'laporan/laporan_keluar'
+		];
+		$this->load->view('Templates/master_dashboard', $data);
+	}
+
+	public function detail($id)
+	{
+		$data = [
+			'isi' => 'laporan/laporan_keluar_detail',
+			'idtransaksi' => $id,
+			'data_detail_keluar' => $this->barangkeluar_m->datatransaksi($id)
 		];
 		$this->load->view('Templates/master_dashboard', $data);
 	}

@@ -35,7 +35,8 @@
 			<th>Name</th>
 			<th>Category</th>
 			<th>Unit</th>
-			<th>Price</th>
+			<th>Harga Beli</th>
+			<th>Harga Jual</th>
 			<th>Stok</th>
 			<th>Action</th>
 	    </tr>
@@ -49,6 +50,7 @@
 			<td><?= $data->name ?></td>
 			<td><?= $data->category_name ?></td>
 			<td><?= $data->unit_name ?></td>
+			<td><?= $data->price_in ?></td>
 			<td><?= $data->price ?></td>
 			<td><?= $data->stock ?></td>
 			<td class="text-center" width="160px">

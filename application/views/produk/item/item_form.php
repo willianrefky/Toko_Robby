@@ -48,7 +48,11 @@
 							['class' => 'form-control', 'required' => 'required']); ?>
 					</div>
 					<div class="form-group">
-						<label>Harga *</label>
+						<label>Harga Beli*</label>
+						<input type="number" value="<?=$row->price_in?>" name="price_in" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label>Harga Jual*</label>
 						<input type="number" value="<?=$row->price?>" name="price" class="form-control" required>
 					</div>
 					<div class="form-group">

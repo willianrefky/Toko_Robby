@@ -31,6 +31,7 @@ class Item extends CI_Controller{
 		$item->item_id = null;
 		$item->barcode= null;
 		$item->name = null;
+		$item->price_in = null;
 		$item->price = null;
 
 		// mengambil data kategori

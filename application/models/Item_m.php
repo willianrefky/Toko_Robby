@@ -22,6 +22,7 @@ class Item_m extends CI_Model{
 			'name' => $post['item_name'],
 			'category_id' => $post['category'],
 			'unit_id' => $post['unit'],
+			'price_in' => $post['price_in'],
 			'price' => $post['price']
 		];
 		$this->db->insert('p_item', $params);
