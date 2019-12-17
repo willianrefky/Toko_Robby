@@ -36,12 +36,7 @@
 			</div>	
 		</div>
 	</div>
-	<footer class="main-footer" style="margin-left: 0; margin-top: -20px; position: fixed;">
-    	<strong>Copyright &copy; 2019 <a href="http://adminlte.io">IndoKreaktif</a>.</strong> All rights reserved.    
-    	<div class="float-right d-none d-sm-inline-block" style="padding-left: 912px;">
-    		<b>Version</b> 0.1
-    	</div>
-  	</footer>
+	
 </body>
 <script>
 	function showPassword() {
@@ -54,3 +49,9 @@
 		}
 	}
 </script>
+<footer class="main-footer" style="margin-left: 0; margin-top: -40px; position: fixed;">
+    	<strong>Copyright &copy; 2019 <a href="http://adminlte.io">IndoKreaktif</a>.</strong> All rights reserved.    
+    	<div class="float-right d-none d-sm-inline-block" style="padding-left: 912px;">
+    		<b>Version</b> 0.1
+    	</div>
+  	</footer>

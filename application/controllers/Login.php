@@ -30,9 +30,9 @@ class Login extends CI_Controller {
 			'password' => md5($password) 
 		);
 
-		$cek = $this->login_m->login_check("user", $where)->num_rows();
+		$cek = $this->login_m->login_check('user',$where)->num_rows();
 
-		if ($cek > 0) {
+		if ($cek = 1) {
 
 			$data_session = array(
 				'username' => $username,
