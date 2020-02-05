@@ -50,4 +50,8 @@ class Laporanpdf_m extends CI_Model
 		$data = $this->db->get();
 		return $data;
 	}
+
+	function datadetailkeluar($idtransaksi) {
+		return $this->db->query("SELECT detail_barang_keluar.barcode, p_item.name as name, detail_barang_keluar.jumlah as jumlah, detail_barang_keluar.harga as harga, p_item.price FROM detail_barang_keluar, p_item WHERE detail_barang_keluar.barcode = p_item.barcode AND detail_barang_keluar.id_barang_keluar = '$idtransaksi'");
+	}
 }
