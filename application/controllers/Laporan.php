@@ -12,7 +12,7 @@ class Laporan extends CI_Controller {
             redirect(base_url("login"));
         }
 
-		$this->load->model(['laporan_m', 'barangkeluar_m']);
+		$this->load->model(['laporan_m', 'barangmasuk_m', 'barangkeluar_m']);
 	}
 	public function laporan_masuk()
 	{
@@ -26,6 +26,16 @@ class Laporan extends CI_Controller {
 	{
 		$data = [
 			'isi' => 'laporan/laporan_keluar'
+		];
+		$this->load->view('Templates/master_dashboard', $data);
+	}
+
+	public function detail_masuk($id)
+	{
+		$data = [
+			'isi' => 'laporan/laporan_masuk_detail',
+			'idtransaksi' => $id,
+			'data_detail_masuk' => $this->barangmasuk_m->datatransaksi($id)
 		];
 		$this->load->view('Templates/master_dashboard', $data);
 	}
@@ -56,10 +66,10 @@ class Laporan extends CI_Controller {
                 <tr>
                   <th>No</th>
                   <th>No Transaksi</th>
-                  <th>Nama Barang</th>
-                  <th>Nama Supplier</th>
+                  <th>Total</th>
                   <th>Jumlah Masuk</th>
                   <th>Tanggal Masuk</th>
+                  <th>Detail</th>
                 </tr>
               </thead>
               <tbody>
@@ -72,10 +82,12 @@ class Laporan extends CI_Controller {
 				<tr>
 					<td>'.$no++ .'</td>
 					<td>'.$row->id_barang_masuk.'</td>
-					<td>'.$row->nm_brg.'</td>
-					<td>'.$row->nm_sup.'</td>
+					<td>'.$row->total_masuk.'</td>
 					<td>'.$row->jumlah_masuk.'</td>
 					<td>'.$row->tanggal_masuk.'</td>
+					<td>
+						<a href='.base_url('laporan/detail_masuk/'.$row->id_barang_masuk.'').'>Detail</a>
+					</td>
 				';
 			}
 		}else{
@@ -112,7 +124,7 @@ class Laporan extends CI_Controller {
                   <th>No Transaksi Keluar</th>
                   <th>Tanggal Keluar</th>
                   <th>Harga Total</th>
-                  <th>#</th>
+                  <th>Detail</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,7 +140,7 @@ class Laporan extends CI_Controller {
 					<td>'.$row->tanggal_keluar.'</td>
 					<td>Rp. '.number_format($row->harga).'</td>
 					<td>
-						<a href='.base_url('laporan/detail_keluar/'.$row->id_barang_keluar.'').'>detail</a>
+						<a href='.base_url('laporan/detail_keluar/'.$row->id_barang_keluar.'').'>Detail</a>
 					</td>
 				';
 			}

@@ -19,6 +19,7 @@ class Laporan_pdf extends CI_Controller {
 	}
 
 	public function laporan_masuk_harian_pdf () {
+		$moneyformat = new Mformat();
 		$pdf = new FPDF('P','mm','A4');
 		// membuat halaman baru
 		$pdf->AddPage();
@@ -28,7 +29,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Laporan Barang Masuk Harian Toko Robby',0,1,'C');
 		// memberikan space ke bawah
 		$tglmasuk = $this->input->post('tanggal_masuk');
-		$data = $this->laporanpdf_m->datamasuk_harian($tglmasuk)->result();
+		$data = $this->laporanpdf_m->datamasuk($tglmasuk)->result();
 		$pdf->Cell(3,7,'',0,1);
 		$pdf->SetFont('Times','','10');
 		$pdf->Cell(20,7,"Tanggal:",0,0);
@@ -39,9 +40,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->SetFont('Times','B','10');
 		$pdf->Cell(8,7,'No.',1,0,'C');
 		$pdf->Cell(40,7,'No. Transaksi',1,0);
-		$pdf->Cell(40,7,'Nama Barang',1,0);
-		$pdf->Cell(20,7,'ID Supplier',1,0);
-		$pdf->Cell(25,7,'Nama Supplier',1,0);
+		$pdf->Cell(40,7,'Total',1,0);
 		$pdf->Cell(25,7,'Jumlah Masuk',1,0);
 		$pdf->Cell(25,7,'Tanggal Masuk',1,1);
 		$pdf->SetFont('Times','','10');
@@ -50,11 +49,44 @@ class Laporan_pdf extends CI_Controller {
 			$no++;
 			$pdf->Cell(8,7,$no,1,0);
 			$pdf->Cell(40,7,$row->id_barang_masuk,1,0);
-			$pdf->Cell(40,7,$row->item_name,1,0);
-			$pdf->Cell(20,7,$row->id_supplier,1,0);
-			$pdf->Cell(25,7,$row->name_supplier,1,0);
+			$pdf->Cell(40,7,$row->total_masuk,1,0);
 			$pdf->Cell(25,7,$row->jumlah_masuk,1,0);
 			$pdf->Cell(25,7,$row->tanggal_masuk,1,1);
+		}
+
+		// detail transaksi
+		$pdf->Cell(3,7,'',0,1);
+		$pdf->SetFont('Times','B',14);
+		$pdf->Cell(190,7,'Detail Transaksi',0,1,'');
+		$pdf->Cell(3,3,'',0,1);
+		// query data
+		$datatransaksi = $this->laporanpdf_m->datamasuk($tglmasuk)->result();
+		foreach ($datatransaksi as $rowtransaksi) {
+			$pdf->SetFont('Times','','10');
+			$pdf->Cell(22,7,"No. Transaksi: ",0,0);
+			$pdf->Cell(28,7,$rowtransaksi->id_barang_masuk,0,1);
+			$idtransaksi = $rowtransaksi->id_barang_masuk;
+			$datadetailkeluar = $this->laporanpdf_m->datadetailmasuk($idtransaksi)->result();
+			$no = 0;
+			// tabel detail transaksi
+			$pdf->SetFont('Times','B','10');
+			$pdf->Cell(30,7,'Barcode',1,0);
+			$pdf->Cell(60,7,'Nama Barang',1,0);
+			$pdf->Cell(30,7,'Jumlah Pembelian',1,0);
+			$pdf->Cell(25,7,'Harga Satuan',1,0);
+			$pdf->Cell(25,7,'Harga Total',1,1);
+			// isi tabel transaksi
+			$pdf->SetFont('Times','','10');
+			foreach ($datadetailkeluar as $rowdetail) {
+				$pdf->Cell(30,7,$rowdetail->barcode,1,0);
+				$pdf->Cell(60,7,$rowdetail->name,1,0);
+				$pdf->Cell(30,7,$rowdetail->jumlah,1,0);
+				$pdf->Cell(25,7,$moneyformat->money_format("%.2n", $rowdetail->hargabeli),1,0);
+				$pdf->Cell(25,7,$moneyformat->money_format("%.2n", $rowdetail->hargabeli * $rowdetail->jumlah),1,1);
+			}
+
+			$pdf->Cell(3,7,'',0,1);
+
 		}
 
 		$pdf->Output();
@@ -62,6 +94,7 @@ class Laporan_pdf extends CI_Controller {
 	}
 
 	public function laporan_masuk_bulanan_pdf () {
+		$moneyformat = new Mformat();
 		$pdf = new FPDF('P','mm','A4');
 		// membuat halaman baru
 		$pdf->AddPage();
@@ -71,7 +104,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Laporan Barang Masuk Bulanan Toko Robby',0,1,'C');
 		// memberikan space ke bawah
 		$blnmasuk = $this->input->post('bulan_masuk');
-		$data = $this->laporanpdf_m->datamasuk_bulanan($blnmasuk)->result();
+		$data = $this->laporanpdf_m->datamasuk($blnmasuk)->result();
 		$pdf->Cell(3,7,'',0,1);
 		$pdf->SetFont('Times','','10');
 		$pdf->Cell(12,7,"Bulan:",0,0);
@@ -82,9 +115,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->SetFont('Times','B','10');
 		$pdf->Cell(8,7,'No.',1,0,'C');
 		$pdf->Cell(40,7,'No. Transaksi',1,0);
-		$pdf->Cell(40,7,'Nama Barang',1,0);
-		$pdf->Cell(20,7,'ID Supplier',1,0);
-		$pdf->Cell(25,7,'Nama Supplier',1,0);
+		$pdf->Cell(40,7,'Total',1,0);
 		$pdf->Cell(25,7,'Jumlah Masuk',1,0);
 		$pdf->Cell(25,7,'Tanggal Masuk',1,1);
 		$pdf->SetFont('Times','','10');
@@ -93,12 +124,46 @@ class Laporan_pdf extends CI_Controller {
 			$no++;
 			$pdf->Cell(8,7,$no,1,0);
 			$pdf->Cell(40,7,$row->id_barang_masuk,1,0);
-			$pdf->Cell(40,7,$row->item_name,1,0);
-			$pdf->Cell(20,7,$row->id_supplier,1,0);
-			$pdf->Cell(25,7,$row->name_supplier,1,0);
+			$pdf->Cell(40,7,$row->total_masuk,1,0);
 			$pdf->Cell(25,7,$row->jumlah_masuk,1,0);
 			$pdf->Cell(25,7,$row->tanggal_masuk,1,1);
 		}
+
+		// detail transaksi
+		$pdf->Cell(3,7,'',0,1);
+		$pdf->SetFont('Times','B',14);
+		$pdf->Cell(190,7,'Detail Transaksi',0,1,'');
+		$pdf->Cell(3,3,'',0,1);
+		// query data
+		$datatransaksi = $this->laporanpdf_m->datamasuk($blnmasuk)->result();
+		foreach ($datatransaksi as $rowtransaksi) {
+			$pdf->SetFont('Times','','10');
+			$pdf->Cell(22,7,"No. Transaksi: ",0,0);
+			$pdf->Cell(28,7,$rowtransaksi->id_barang_masuk,0,1);
+			$idtransaksi = $rowtransaksi->id_barang_masuk;
+			$datadetailkeluar = $this->laporanpdf_m->datadetailmasuk($idtransaksi)->result();
+			$no = 0;
+			// tabel detail transaksi
+			$pdf->SetFont('Times','B','10');
+			$pdf->Cell(30,7,'Barcode',1,0);
+			$pdf->Cell(60,7,'Nama Barang',1,0);
+			$pdf->Cell(30,7,'Jumlah Pembelian',1,0);
+			$pdf->Cell(25,7,'Harga Satuan',1,0);
+			$pdf->Cell(25,7,'Harga Total',1,1);
+			// isi tabel transaksi
+			$pdf->SetFont('Times','','10');
+			foreach ($datadetailkeluar as $rowdetail) {
+				$pdf->Cell(30,7,$rowdetail->barcode,1,0);
+				$pdf->Cell(60,7,$rowdetail->name,1,0);
+				$pdf->Cell(30,7,$rowdetail->jumlah,1,0);
+				$pdf->Cell(25,7,$moneyformat->money_format("%.2n", $rowdetail->hargabeli),1,0);
+				$pdf->Cell(25,7,$moneyformat->money_format("%.2n", $rowdetail->hargabeli * $rowdetail->jumlah),1,1);
+			}
+
+			$pdf->Cell(3,7,'',0,1);
+
+		}
+
 
 		$pdf->Output();
 		
@@ -115,7 +180,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Laporan Barang Keluar Harian Toko Robby',0,1,'C');
 		// memberikan space ke bawah
 		$tglkeluar = $this->input->post('tanggal_keluar');
-		$data = $this->laporanpdf_m->datakeluar_harian($tglkeluar)->result();
+		$data = $this->laporanpdf_m->datakeluar($tglkeluar)->result();
 		$querykeluar = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$tglkeluar%'")->row_array();
 		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$tglkeluar%'")->row_array();
 		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
@@ -154,7 +219,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Detail Transaksi',0,1,'');
 		$pdf->Cell(3,3,'',0,1);
 		// query data
-		$datatransaksi = $this->laporanpdf_m->datakeluar_harian($tglkeluar)->result();
+		$datatransaksi = $this->laporanpdf_m->datakeluar($tglkeluar)->result();
 		foreach ($datatransaksi as $rowtransaksi) {
 			$pdf->SetFont('Times','','10');
 			$pdf->Cell(22,7,"No. Transaksi: ",0,0);
@@ -164,18 +229,19 @@ class Laporan_pdf extends CI_Controller {
 			$no = 0;
 			// tabel detail transaksi
 			$pdf->SetFont('Times','B','10');
-			$pdf->Cell(8,7,'No.',1,0,'C');
+			$pdf->Cell(30,7,'Barcode',1,0);
 			$pdf->Cell(60,7,'Nama Barang',1,0);
-			$pdf->Cell(60,7,'Harga',1,0);
-			$pdf->Cell(50,7,'Jumlah',1,1);
+			$pdf->Cell(30,7,'Harga Satuan',1,0);
+			$pdf->Cell(10,7,'Jml',1,0);
+			$pdf->Cell(30,7,'Harga Total',1,1);
 			// isi tabel transaksi
 			$pdf->SetFont('Times','','10');
 			foreach ($datadetailkeluar as $rowdetail) {
-				$no++;
-				$pdf->Cell(8,7,$no,1,0);
+				$pdf->Cell(30,7,$rowdetail->barcode,1,0);
 				$pdf->Cell(60,7,$rowdetail->name,1,0);
-				$pdf->Cell(60,7,$moneyformat->money_format("%.2n", $rowdetail->harga),1,0);
-				$pdf->Cell(50,7,$rowdetail->jumlah,1,1);
+				$pdf->Cell(30,7,$moneyformat->money_format("%.2n", $rowdetail->hargajual),1,0);
+				$pdf->Cell(10,7,$rowdetail->jumlah,1,0);
+				$pdf->Cell(30,7,$moneyformat->money_format("%.2n", $rowdetail->hargajual * $rowdetail->jumlah),1,1);
 			}
 
 			$pdf->Cell(3,7,'',0,1);
@@ -197,7 +263,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Laporan Barang Keluar Bulanan Toko Robby',0,1,'C');
 		// memberikan space ke bawah
 		$tglkeluar = $this->input->post('bulan_keluar');
-		$data = $this->laporanpdf_m->datakeluar_bulanan($tglkeluar)->result();
+		$data = $this->laporanpdf_m->datakeluar($tglkeluar)->result();
 		$querykeluar = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$tglkeluar%'")->row_array();
 		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$tglkeluar%'")->row_array();
 		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
@@ -219,7 +285,7 @@ class Laporan_pdf extends CI_Controller {
 		$no = 0;
 		foreach ($data as $row) {
 			$no++;
-			$pdf->Cell(8,7,$no,1,0);
+			$pdf->Cell(8,7,$no,1,0,'C');
 			$pdf->Cell(60,7,$row->id_barang_keluar,1,0);
 			$pdf->Cell(60,7,date('d-m-Y H:i:s', strtotime($row->tanggal_keluar)),1,0);
 			$pdf->Cell(50,7,$moneyformat->money_format("%.2n", $row->harga),1,1);
@@ -236,7 +302,7 @@ class Laporan_pdf extends CI_Controller {
 		$pdf->Cell(190,7,'Detail Transaksi',0,1,'');
 		$pdf->Cell(3,3,'',0,1);
 		// query data
-		$datatransaksi = $this->laporanpdf_m->datakeluar_bulanan($tglkeluar)->result();
+		$datatransaksi = $this->laporanpdf_m->datakeluar($tglkeluar)->result();
 		foreach ($datatransaksi as $rowtransaksi) {
 			$pdf->SetFont('Times','','10');
 			$pdf->Cell(22,7,"No. Transaksi: ",0,0);
@@ -246,18 +312,19 @@ class Laporan_pdf extends CI_Controller {
 			$no = 0;
 			// tabel detail transaksi
 			$pdf->SetFont('Times','B','10');
-			$pdf->Cell(8,7,'No.',1,0,'C');
+			$pdf->Cell(30,7,'Barcode',1,0);
 			$pdf->Cell(60,7,'Nama Barang',1,0);
-			$pdf->Cell(60,7,'Harga',1,0);
-			$pdf->Cell(50,7,'Jumlah',1,1);
+			$pdf->Cell(30,7,'Harga Satuan',1,0);
+			$pdf->Cell(10,7,'Jml',1,0);
+			$pdf->Cell(30,7,'Harga Total',1,1);
 			// isi tabel transaksi
 			$pdf->SetFont('Times','','10');
 			foreach ($datadetailkeluar as $rowdetail) {
-				$no++;
-				$pdf->Cell(8,7,$no,1,0);
+				$pdf->Cell(30,7,$rowdetail->barcode,1,0);
 				$pdf->Cell(60,7,$rowdetail->name,1,0);
-				$pdf->Cell(60,7,$moneyformat->money_format("%.2n", $rowdetail->harga),1,0);
-				$pdf->Cell(50,7,$rowdetail->jumlah,1,1);
+				$pdf->Cell(30,7,$moneyformat->money_format("%.2n", $rowdetail->hargajual),1,0);
+				$pdf->Cell(10,7,$rowdetail->jumlah,1,0);
+				$pdf->Cell(30,7,$moneyformat->money_format("%.2n", $rowdetail->hargajual * $rowdetail->jumlah),1,1);
 			}
 
 			$pdf->Cell(3,7,'',0,1);
@@ -266,50 +333,6 @@ class Laporan_pdf extends CI_Controller {
 
 		$pdf->Output();
 	
-	}
-
-	public function laporan_laba_pdf() {
-		setlocale(LC_MONETARY, "id_ID");
-		$pdf = new FPDF('P','mm','A4');
-		// membuat halaman baru
-		$pdf->AddPage();
-		// setting jenis font yang akan digunakan
-		$pdf->SetFont('Times','B',16);
-		// mencetak string
-		$pdf->Cell(190,7,'Laporan Laba Bulanan Toko Robby',0,1,'C');
-		// memberikan space ke bawah
-		$pdf->Cell(3,7,'',0,1);
-		$pdf->SetFont('Times','','10');
-		$pdf->Cell(20,7,"Tanggal:",0,0);
-		$pdf->Cell(20,7,date("d-m-Y"),0,1);
-		$pdf->Cell(3,7,'',0,1);
-
-		$search = $this->input->post('cetak-data');
-		$pdf->SetFont('Times','B','12');
-		$pdf->Cell(30,7,"Pembelian (Rp)",1,0);
-		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$search%'");
-		$querydata = $querymasuk->row_array();
-		$outputmasuk = $querydata['totalbulanmasuk'];
-		$pdf->Cell(30,7,$outputmasuk,1,1,'R');
-
-		$pdf->SetFont('Times','B','12');
-		$pdf->Cell(30,7,"Penjualan (Rp)",1,0);
-		$querykeluar = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$search%'");
-		$querydata = $querykeluar->row_array();
-		$outputkeluar = $querydata['totalbulankeluar'];
-		$pdf->Cell(30,7,$outputkeluar,1,1,'R');
-
-		$pdf->SetFont('Times','B','12');
-		$pdf->Cell(30,7,"Laba (Rp)",1,0);
-		$querykeluar = $this->db->query("SELECT sum(harga) as totalbulankeluar from barang_keluar WHERE tanggal_keluar LIKE '%$search%'")->row_array();
-		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$search%'")->row_array();
-
-		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
-		$outputlaba = $querydata;
-		$pdf->Cell(30,7,$outputlaba,1,1,'R');
-
-
-		$pdf->Output();
 	}
 
 }
