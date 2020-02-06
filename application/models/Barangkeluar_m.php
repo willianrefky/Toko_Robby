@@ -90,11 +90,11 @@ class Barangkeluar_m extends CI_Model{
 	}
 
 	public function get_brgmodal($brcd, $idstk) {
-		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, p_item.price, p_item.stock,stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND stok.id_stok = '$idstk'");
+		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND stok.id_stok = '$idstk'");
 	}
 
 	public function get_brgdet($brcd, $unt) {
-		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, p_item.price, p_item.stock,stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND p_unit.name = '$unt'");
+		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND p_unit.name = '$unt'");
 	}
 
 	public function get_brgup($brcd, $unit) {

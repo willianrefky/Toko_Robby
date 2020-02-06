@@ -172,7 +172,7 @@ class Barangkeluar extends CI_Controller{
 				'price' => $get->hargajual,
 				'qty' => 1
 			);
-			if($get->stock < 5){
+			if($get->jumlah_stok < 5){
 			$this->session->set_flashdata('error', "Stok kurang dari 5, tidak bisa melanjutkan Transaksi");
 			redirect('barangkeluar/add');
 
