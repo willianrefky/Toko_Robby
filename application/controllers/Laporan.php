@@ -30,7 +30,7 @@ class Laporan extends CI_Controller {
 		$this->load->view('Templates/master_dashboard', $data);
 	}
 
-	public function detail($id)
+	public function detail_keluar($id)
 	{
 		$data = [
 			'isi' => 'laporan/laporan_keluar_detail',
@@ -41,7 +41,7 @@ class Laporan extends CI_Controller {
 	}
 
 
-	public function data()
+	public function data_masuk()
 	{
 		$output = '';
 	    $query = '';
@@ -49,7 +49,7 @@ class Laporan extends CI_Controller {
 		{
 			$query = $this->input->post('query');
 		}
-		$data = $this->laporan_m->fetch_data($query);
+		$data = $this->laporan_m->fetch_data_masuk($query);
 		$output = '
 		<table  class="table table-bordered table-striped">
               <thead>
@@ -90,7 +90,7 @@ class Laporan extends CI_Controller {
 		echo $output;
 	}
 
-	public function data_dua()
+	public function data_keluar()
 	{
 		$output = '';
 	    $query = '';
@@ -103,7 +103,7 @@ class Laporan extends CI_Controller {
 		$querymasuk = $this->db->query("SELECT sum(total_masuk) as totalbulanmasuk from barang_masuk WHERE tanggal_masuk LIKE '%$query%'")->row_array();
 		$querydata = $querykeluar['totalbulankeluar']-$querymasuk['totalbulanmasuk'];
 
-		$data = $this->laporan_m->fetch_data_dua($query);
+		$data = $this->laporan_m->fetch_data_keluar($query);
 		$output = '
 		<table  class="table table-bordered table-striped">
               <thead>
@@ -128,7 +128,7 @@ class Laporan extends CI_Controller {
 					<td>'.$row->tanggal_keluar.'</td>
 					<td>Rp. '.number_format($row->harga).'</td>
 					<td>
-						<a href='.base_url('laporan/detail/'.$row->id_barang_keluar.'').'>detail</a>
+						<a href='.base_url('laporan/detail_keluar/'.$row->id_barang_keluar.'').'>detail</a>
 					</td>
 				';
 			}

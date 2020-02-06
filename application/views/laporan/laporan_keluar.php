@@ -36,7 +36,7 @@
                     <div class="input-group">
                       <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar">  
                         <div class="input-group-append">
-                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal-dua"><i class="fa fa-search"></i> Cari</a>
+                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal-keluar"><i class="fa fa-search"></i> Cari</a>
                         </div>
                     </div>
                   </div>
@@ -68,7 +68,7 @@
                     <div class="input-group">
                       <input type="month" class="form-control" name="bulan_keluar" id="bulan_keluar">  
                         <div class="input-group-append">
-                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan-dua"><i class="fa fa-search"></i> Cari</a>
+                          <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-bulan-keluar"><i class="fa fa-search"></i> Cari</a>
                         </div>
                     </div>
                   </div>

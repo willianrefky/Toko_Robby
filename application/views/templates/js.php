@@ -247,31 +247,31 @@ var brgkeluarcrt = new Chart(ctx, {
 <!-- Cari Tanggal masuk -->
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#search-data-tanggal').on('click', function(){
+    $('#search-data-tanggal-masuk').on('click', function(){
       var search = $('#tanggal_masuk').val()
       if(search != ''){
         console.log(search)
-        caritanggal(search)
+        caritanggalmasuk(search)
       } else {
         $('#returnlaporantanggalmasuk').html('')
       }
     })
 
-    $('#search-data-bulan').on('click', function(){
+    $('#search-data-bulan-masuk').on('click', function(){
       var search = $('#bulan_masuk').val()
       if(search != ''){
         console.log(search)
-        caribulan(search)
+        caribulanmasuk(search)
       } else {
         $('#returnlaporanbulanmasuk').html('')
       }
     })
 
-    function caritanggal($query){
+    function caritanggalmasuk($query){
       var query = $query;
 
       $.ajax({
-        url:"<?php echo base_url(); ?>Laporan/data",
+        url:"<?php echo base_url(); ?>Laporan/data_masuk",
         method:"POST",
         data:{query:query},
         success:function(data){
@@ -280,11 +280,11 @@ var brgkeluarcrt = new Chart(ctx, {
       })
     }
 
-    function caribulan($query){
+    function caribulanmasuk($query){
       var query = $query;
 
       $.ajax({
-        url:"<?php echo base_url(); ?>Laporan/data",
+        url:"<?php echo base_url(); ?>Laporan/data_masuk",
         method:"POST",
         data:{query:query},
         success:function(data){
@@ -299,7 +299,7 @@ var brgkeluarcrt = new Chart(ctx, {
 <!-- js laporan barang keluar -->
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#search-data-tanggal-dua').on('click', function(){
+    $('#search-data-tanggal-keluar').on('click', function(){
       var search = $('#tanggal_keluar').val()
       if(search != ''){
         console.log(search)
@@ -324,7 +324,7 @@ var brgkeluarcrt = new Chart(ctx, {
       var query = $query;
       
       $.ajax({
-        url:"<?php echo base_url(); ?>Laporan/data_dua",
+        url:"<?php echo base_url(); ?>Laporan/data_keluar",
         method:"POST",
         data:{query:query},
         success:function(data){
@@ -337,7 +337,7 @@ var brgkeluarcrt = new Chart(ctx, {
       var query = $query;
 
       $.ajax({
-        url:"<?php echo base_url(); ?>Laporan/data_dua",
+        url:"<?php echo base_url(); ?>Laporan/data_keluar",
         method:"POST",
         data:{query:query},
         success:function(data){

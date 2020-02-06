@@ -41,7 +41,7 @@
 	      <tr>
 	        <td style="width:5%;"><?php echo $no++ ?></td>
 		    <td><?php echo $dtkl['name'] ?></td>
-		    <td>Rp. <?php echo number_format($dtkl['price']) ?></td>
+		    <td>Rp. <?php echo number_format($dtkl['hargajual']) ?></td>
 		    <td><?php echo $dtkl['jumlah'] ?></td>
 	      </tr>
 	    <?php } ?>
