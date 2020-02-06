@@ -6,21 +6,23 @@ class Item extends CI_Controller{
 	function __construct()
 	{
 		parent::__construct();
-		
-        // jika user belum login, arahkan ke halaman login
-        if($this->session->userdata('status') != "login"){
-            $this->session->set_flashdata("alert", "<script>alert('Login terlebih dahulu!');</script>"); // session flash data, ditampilkan jika user mencoba membuka halaman tertentu.
-            redirect(base_url("login"));
-        }  
-        
+		// check_not_login();
 		$this->load->model(['item_m', 'kategori_m', 'unit_m']);
 	}
 
 	public function index()
 	{
+		$query_unit = $this->unit_m->get();
+		$unit[null] = '- Pilih -';
+		foreach ($query_unit->result() as $un) {
+			$unit[$un->unit_id] = $un->name;
+		}
+
 		$data = [
 			'isi' => 'produk/item/item_data',
-			'data_item' => $this->item_m->get()
+			'data_item' => $this->item_m->get(),
+			'data_unit' => $unit, 'selectedunit' => null
+
 		];
 		$this->load->view('Templates/master_dashboard', $data);
 	}
@@ -33,6 +35,7 @@ class Item extends CI_Controller{
 		$item->name = null;
 		$item->price_in = null;
 		$item->price = null;
+		$item->category_name = null;
 
 		// mengambil data kategori
 		$query_category = $this->kategori_m->get();
@@ -54,7 +57,9 @@ class Item extends CI_Controller{
 			'page1' => 'tambah',
 			'row' => $item,
 			'data_category' => $category, 'selectedkategori' => null,
-			'data_unit' => $unit, 'selectedunit' => null
+			'data_unit' => $unit, 'selectedunit' => null,
+			'data_units' => $this->unit_m->get(),
+			'data_categorys' => $this->kategori_m->get()
 		);
 		$this->load->view('Templates/master_dashboard', $data);
 	}
@@ -62,28 +67,31 @@ class Item extends CI_Controller{
 	public function edit($id)
 	{
 		$data_item = $this->item_m->get($id);
-		if($data_item->num_rows()>0){
+		if($data_item->num_rows() > 0){
 			$item = $data_item->row();
+
 			//mengambil data categori
-			$query_category = $this->kategori_m->get();
-			$category[null] = '- Pilih -';
-			foreach ($query_category->result() as $cat){
-				$category[$cat->category_id] = $cat->name;
-			}
+			// $query_category = $this->kategori_m->get();
+			// $category[null] = '- Pilih -';
+			// foreach ($query_category->result() as $cat){
+			// 	$category[$cat->category_id] = $cat->name;
+			// }
 			//mengambil data unit
-			$query_unit = $this->unit_m->get();
-			$unit[null] = '- Pilih -';
-			foreach ($query_unit->result() as $unt) {
-				$unit[$unt->unit_id] = $unt->name;
-			}
+			// $query_unit = $this->unit_m->get();
+			// $unit[null] = '- Pilih -';
+			// foreach ($query_unit->result() as $unt) {
+			// 	$unit[$unt->unit_id] = $unt->name;
+			// }
 
 			$data = array(
 				'isi' => 'produk/item/item_form',
 				'page' => 'edit',
 				'page1' => 'edit',
 				'row' => $item,
-				'data_category' => $category, 'selectedkategori' => $item->category_id,
-				'data_unit' => $unit, 'selectedunit' => $item->unit_id,
+				'data_categorys' => $this->kategori_m->get(),
+				// 'data_category' => $category,
+				// 'selectedkategori' => $item->category_id,
+				// 'data_unit' => $unit, 'selectedunit' => $item->unit_id,
 			);
 			$this->load->view('Templates/master_dashboard', $data);
 		}else{
@@ -101,6 +109,28 @@ class Item extends CI_Controller{
 				redirect('item/add');
 			} else {
 				$this->item_m->add($post);
+
+				$unit = $_POST['unit']; 
+			    $hargabeli = $_POST['hargabeli']; 
+			    $hargajual = $_POST['hargajual']; 
+			    $keteranganpcs = $_POST['keteranganpcs']; 
+
+			    $data = array();
+			    
+			    $index = 0; 
+			    foreach($unit as $dataunit){ 
+			      array_push($data, array(
+			      	'barcode'=>$post['barcode'],
+			        'unit_id'=>$dataunit,
+			        'hargabeli'=>$hargabeli[$index],  
+			        'hargajual'=>$hargajual[$index],
+			        'keterangan_pcs'=>$keteranganpcs[$index],
+			      ));
+			      
+			      $index++;
+			    }
+
+			    $sql = $this->item_m->save_batch($data);
 			}
 		}else if(isset($_POST['edit'])){
 			if($this->item_m->check_barcode($post['barcode'], $post['id'])->num_rows() > 0){
@@ -133,4 +163,18 @@ class Item extends CI_Controller{
         $query = $this->item_m->cekstok($id);
         output_json($query);
     }
+
+    public function tambahstok()
+    {
+    	$post =  $this->input->post(null, TRUE);
+    	$this->item_m->stok($post);
+    	if($this->db->affected_rows() > 0){
+			echo "<script>
+				alert('Data berhasil disimpan');
+			</script>";
+			} 
+			echo "<script>
+				window.location='".site_url('item')."';</script>"; 
+    }
+	
 }

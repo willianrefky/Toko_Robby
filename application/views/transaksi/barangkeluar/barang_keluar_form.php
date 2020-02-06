@@ -36,6 +36,7 @@
 		      <th>No.</th>
 		      <th>Barocode</th>
 		      <th>Nama Barang</th>
+		      <th>Unit</th>
 		      <th>Jumlah Beli</th>
 		      <th>Harga</th>
 		      <th>Sub Total</th>
@@ -49,8 +50,9 @@
 	    	foreach ($this->cart->contents() as $r) { ?>
 		    <tr>
 		      <td style="width:5%;"><?= $no++ ?>.</td>
-				<td><?= $r['id'] ?></td>
+				<td><?= $r['barcode'] ?></td>
 				<td><?= $r['name'] ?></td>
+				<td><?= $r['unit'] ?></td>
 				<td><?= $r['qty'] ?></td>
 				<td>Rp. <?= number_format($r['price']); ?> </td>
 				<?php 
@@ -85,7 +87,9 @@
 							<div>		
 							   <div class="form-group">
 								<label>Jumlah Barang*</label>
-								<input value="<?= $r['id'] ?>" type="hidden" class="form-control" name="id_brg">
+								<input value="<?= $r['id'] ?>" type="hidden" class="form-control" name="id_cart">
+								<input value="<?= $r['barcode'] ?>" type="hidden" class="form-control" name="id_brg">
+								<input value="<?= $r['unit'] ?>" type="hidden" class="form-control" name="unt_brg">
 								<input value="<?= $r['qty'] ?>" type="number" class="form-control" name="jumlah_brg">
 							   </div>
 							</div>
@@ -107,7 +111,6 @@
 	</div>
 	<!-- /.card-body -->
 	</div>
-            </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Save changes</button>
@@ -121,10 +124,10 @@
 		}
 	    //$total=$total+($r->jumlah*$r->harga); 
 		}else{
-			echo "<td colspan='7' style='text-align:center;'>Item Belum di Pilih</td>";
+			echo "<td colspan='8' style='text-align:center;'>Item Belum di Pilih</td>";
 		} ?>
      	<tr class="gradeA">
-            <td colspan="6">T O T A L</td>
+            <td colspan="7">T O T A L</td>
             <td>Rp. <?php if(!empty($total)){
             	echo number_format($semua);
             }?></td>
@@ -261,10 +264,10 @@
 			<td><?= $data->name ?></td>
 			<td><?= $data->category_name ?></td>
 			<td><?= $data->unit_name ?></td>
-			<td><?= $data->price ?></td>
-			<td><?= $data->stock ?></td>
+			<td><?= $data->hargajual ?></td>
+			<td><?= $data->jumlah_stok ?></td>
 			<td class="text-center" width="160px">
-					<a href="<?= base_url('barangkeluar/add_cart/')?><?php echo $data->barcode ?>" class="btn btn-success btn-sm" >
+					<a href="<?= base_url('barangkeluar/add_cart/')?><?php echo $data->barcode ?>/<?php echo $data->id_stok?>" class="btn btn-success btn-sm" >
 						<i class="fa fa-plus"></i>Tambah
 					</a>
 					<!-- onclick="databarang('<?= $data->barcode?>', '<?= $data->name?>', '<?= $data->unit_name?>', '<?= $data->stock?>', '<?= $data->price?>')" -->

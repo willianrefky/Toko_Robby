@@ -2,7 +2,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Transaksi</h1>
+            <h1 class="m-0 text-dark">TRANSAKSI</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -45,7 +45,7 @@
 	      	<td style="width:5%;"><?= $no++ ?>.</td>
 			<td><?= $data->id_barang_keluar ?></td>
 			<td><?= $data->tanggal_keluar ?></td>
-			<td><?= $data->harga ?></td>
+			<td>Rp.<?= number_format($data->harga) ?></td>
 			<td class="text-center" width="160px">
 				<button href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_data" onclick="datatransaksi('<?php echo $data->id_barang_keluar ?>')">
 						<i class="fa fa-pencil"></i>Detail
@@ -82,21 +82,6 @@
 
 	<!-- /.card-header -->
 	<div class="card-body">
-	  <!-- <table id="example1" class="table table-bordered table-striped table-responsive">
-	    <thead>
-	    <tr>
-	      	<th>No</th>
-			<th>Barcode</th>
-			<th>Nama Barang</th>
-			<th>Jumlah Pembelian</th>
-			<th>Harga</th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	      <div id="test"></div>
-	      <div id="returndatatransaksi"></div>
-	    </tbody>
-	  </table> -->
 	  <div id="returndatatransaksi"></div>
 	</div>
 	<!-- /.card-body -->

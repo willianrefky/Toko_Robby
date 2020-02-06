@@ -27,10 +27,9 @@
 
 	<!-- /.card-header -->
 	<div class="card-body">
-	  <table id="example1" class="table table-bordered table-striped table-responsive">
+	  <table id="example1" class="table table-bordered table-striped ">
 	    <thead>
 	    <tr>
-	      	<th>No</th>
 			<th>Barcode</th>
 			<th>Name</th>
 			<th>Category</th>
@@ -42,17 +41,16 @@
 	    </tr>
 	    </thead>
 	    <tbody>
-    	<?php $no = 1;
+    	<?php 
 			foreach ($data_item->result() as $data) { ?>
 	    <tr>
-	      <td style="width:5%;"><?= $no++ ?>.</td>
-			<td><?= $data->barcode ?></td>
+			<td><a href="" data-toggle="modal" data-target="#modal_item" onclick="dataitem('<?php echo $data->barcode ?>')"><?= $data->barcode ?></a></td>
 			<td><?= $data->name ?></td>
 			<td><?= $data->category_name ?></td>
 			<td><?= $data->unit_name ?></td>
-			<td><?= $data->price_in ?></td>
-			<td><?= $data->price ?></td>
-			<td><?= $data->stock ?></td>
+			<td><?= $data->hargabeli ?></td>
+			<td><?= $data->hargajual ?></td>
+			<td><?= $data->jumlah_stok ?></td>
 			<td class="text-center" width="160px">
 					<a href="<?= site_url('item/edit/'.$data->item_id) ?>" class="btn btn-primary btn-sm">
 						<i class="fa fa-pencil"></i>Update
@@ -68,3 +66,57 @@
 	</div>
 	<!-- /.card-body -->
 	</div>
+
+
+
+	<!-- modal detail -->
+<div class="modal fade" id="modal_item">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Item Stok</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+					<!-- /.card-header -->
+					<div class="card-body">
+						<form action="<?= site_url('item/tambahstok') ?>" method="post">
+						<div class="form-group">
+							<label>Barcode *</label>
+							<input type="text" name="barcode" class="form-control" id="returnitem">
+						</div>
+						<div class="form-group">
+							<label>Harga Beli</label>
+							<input type="text" name="hargabeli" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Harga Jual</label>
+							<input type="text" name="hargajual" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Unit *</label>
+							<?php echo form_dropdown('unit', $data_unit, $selectedunit, 
+								['class' => 'form-control', 'required' => 'required']); ?>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success btn-flat">
+								<i class="fa fa-check"></i>Save
+							</button>
+							<button type="reset" class="btn btn-flat">Reset</button>
+						</div>
+						</form>
+						
+					</div>
+					<!-- /.card-body -->
+					</div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+</div>

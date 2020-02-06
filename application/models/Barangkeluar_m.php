@@ -11,10 +11,8 @@ class Barangkeluar_m extends CI_Model{
 
 	public function get($id= null)
 	{
-		$this->db->select('barang_keluar.* ,p_item.name as item_name');
+		$this->db->select('barang_keluar.*');
 		$this->db->from('barang_keluar');
-		// $this->db->join('supplier', 'supplier.supplier_id = barang_keluar.supplier_id');
-		$this->db->join('p_item', 'p_item.barcode = barang_keluar.barcode');
 
 		
 		if($id != null){
@@ -36,20 +34,6 @@ class Barangkeluar_m extends CI_Model{
 
 	public function simpan_barang($data)
 	{
-		// $idbrk = $this->input->post('id_barang_keluar');
-		// $tk = $this->input->post('date');
-		// $brcd = $this->input->post('barcode_barang');
-		// $nm_brg = $this->input->post('nama_barang');
-		// $jml_keluar = $this->input->post('jumlah_keluar');
-		// $idbrg = $this->db->get_where('p_item', array('name' => $nm_brg))->row_array();
-		
-		// $data = [
-		// 	'id_barang_keluar' => $this->input->post('id_barang_keluar'),
-		// 	'barcode' => $idbrg['barcode'],
-		// 	'jumlah' => $jml_keluar,
-		// 	'harga' => $idbrg['price'],
-		// 	'tanggal_keluar' => $this->input->post('date')
-		// ];
 		$this->db->insert('barang_keluar', $data);
 
 	}
@@ -68,27 +52,22 @@ class Barangkeluar_m extends CI_Model{
 		$this->db->delete('detail_barang_keluar');
 	}
 
-	// public function selesai_belanja()
-	// {
-	// 	$idbrk = $this->input->post('id_barang_keluar');
-	// 	$idk = $this->db->get_where('barang_keluar_detail', array('id_barang_keluar' => $idbrk))->row_array();
-	// 	$tanggal = data('Y-m-d');
-	// 	$data = array(
-	// 		'tanggal_keluar' => $date,
-	// 		'id_barang_keluar' => $idk['id_barang_keluar']
-	// 	);
-	// 	$this->db->insert('barang_keluar', $data);
-	// }
-
 	public function datatransaksi($idtransaksi) {
-		return $this->db->query("SELECT detail_barang_keluar.barcode, p_item.name, detail_barang_keluar.jumlah, detail_barang_keluar.harga, p_item.price FROM detail_barang_keluar, p_item WHERE detail_barang_keluar.barcode = p_item.barcode AND detail_barang_keluar.id_barang_keluar = '$idtransaksi'");
+		return $this->db->query("SELECT p_item.barcode, p_item.name, detail_barang_keluar.jumlah, stok.hargajual FROM p_item, detail_barang_keluar, p_unit, stok WHERE detail_barang_keluar.id_barang_keluar = '$idtransaksi' AND detail_barang_keluar.barcode = p_item.barcode AND p_unit.unit_id = detail_barang_keluar.unit AND stok.barcode = detail_barang_keluar.barcode AND detail_barang_keluar.unit = stok.unit_id");
 	}
 
-	public function updatestok($barcode, $stock)
+	public function updatestok($barcode, $unt, $stock)
 	{
-		$this->db->set('stock', $stock);
+		$this->db->set('jumlah_stok', $stock);
 		$this->db->where('barcode', $barcode);
-		$this->db->update('p_item');
+		$this->db->where('unit_id', $unt);
+		$this->db->update('stok');
+		# code...
+	}
+
+	public function get_unit($barcode, $unit)
+	{
+		return $this->db->query("SELECT stok.unit_id FROM stok, p_unit WHERE stok.unit_id = p_unit.unit_id AND stok.barcode = '$barcode' AND p_unit.name = '$unit'");
 		# code...
 	}
 
@@ -108,6 +87,18 @@ class Barangkeluar_m extends CI_Model{
 		$bulankeluar = date('Y')."-".$bulan;
 		$query = $this->db->query("SELECT COUNT(id_barang_keluar) as brgkeluar FROM barang_keluar WHERE tanggal_keluar LIKE '%$bulankeluar%'");
 		return $query;
+	}
+
+	public function get_brgmodal($brcd, $idstk) {
+		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, p_item.price, p_item.stock,stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND stok.id_stok = '$idstk'");
+	}
+
+	public function get_brgdet($brcd, $unt) {
+		return $this->db->query("SELECT p_item.item_id, p_item.barcode, p_item.name, p_category.name as category_name, p_unit.name as unit_name, p_item.price, p_item.stock,stok.id_stok, stok.hargabeli, stok.hargajual, stok.jumlah_stok FROM p_item, p_category, p_unit, stok WHERE p_unit.unit_id = stok.unit_id AND p_item.barcode = stok.barcode AND p_category.category_id = p_item.category_id AND p_item.barcode = '$brcd' AND p_unit.name = '$unt'");
+	}
+
+	public function get_brgup($brcd, $unit) {
+		return $this->db->query("SELECT jumlah_stok FROM stok WHERE barcode = '$brcd' AND unit_id = '$unit'");
 	}
 
 	

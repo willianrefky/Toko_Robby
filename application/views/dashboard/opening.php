@@ -103,8 +103,8 @@
                           foreach ($barang_min as $min) :
                             ?>
                           <tr>
-                              <td><?= $min['name']; ?></td>
-                              <td><?= $min['stock']; ?></td>
+                              <td><?= $min['barcode']; ?></td>
+                              <td><?= $min['jumlah_stok']; ?></td>
                               <td>
                                   <a href="<?= base_url('barangmasuk/add/') . $min['barcode'] ?>" class="btn btn-warning btn-sm"><i class="fa fa-plus"></i></a>
                               </td>

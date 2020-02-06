@@ -6,13 +6,7 @@ class Barangkeluar extends CI_Controller{
 	function __construct()
 	{
 		parent::__construct();
-
-		// jika user belum login, arahkan ke halaman login
-        if($this->session->userdata('status') != "login"){
-        	$this->session->set_flashdata("alert", "<script>alert('Login terlebih dahulu!');</script>"); // session flash data, ditampilkan jika user mencoba membuka halaman tertentu.
-            redirect(base_url("login"));
-        }
-        
+		// check_not_login();
 		$this->load->model(['barangkeluar_m','item_m','supplier_m']);
 		$this->load->library('cart');
 	}
@@ -26,42 +20,14 @@ class Barangkeluar extends CI_Controller{
 		
 	}
 
-	// public function add()
-	// {
-	// 	$kode = 'T-BK-' . date('ymd');
-	// 	$kode_terakhir = $this->barangkeluar_m->getMax('barang_keluar','id_barang_keluar', $kode);
-	// 	$kode_tambah = substr($kode_terakhir, -5, 5);
-	// 	$kode_tambah++;
-	// 	$number = str_pad($kode_tambah, 5, '0', STR_PAD_LEFT); 
-	// 	if (isset($_POST['submit'])) 
-	// 	{
-	// 		$this->barangkeluar_m->simpan_barang();
-	// 		redirect('barangkeluar/add')j;
-	// 	}else{
-	// 		$kode = 'T-BK-' . date('ymd');
-	// 		$kode_terakhir = $this->barangkeluar_m->getMax('barang_keluar','id_barang_keluar', $kode);
-	// 		$kode_tambah = substr($kode_terakhir, -5, 5);
-	// 		$kode_tambah++;
-	// 		$number = str_pad($kode_tambah, 5, '0', STR_PAD_LEFT); 
-	// 		$data = array(
-	// 			'isi' => 'transaksi/barangkeluar/barang_keluar_form',
-	// 			'page' => 'add',
-	// 			'page1' => 'tambah',
-	// 			'data_item' => $this->item_m->get(),
-	// 			'id_barang_keluar' => $kode . $number,
-	// 			'detail' => $this->barangkeluar_m->tampil_detail_barangkeluar()->result()
-	// 		);
-	// 		$this->load->view('Templates/master_dashboard', $data);
-	// 	}
-		
-	// }
+	// halaman add
 	public function add()
 	{
-		$kode = 'T-BK-' . date('ymd');
-		$kode_terakhir = $this->barangkeluar_m->getMax('barang_keluar','id_barang_keluar', $kode);
-		$kode_tambah = substr($kode_terakhir, -5, 5);
-		$kode_tambah++;
-		$number = str_pad($kode_tambah, 5, '0', STR_PAD_LEFT); 
+		// $kode = 'T-BK-' . date('ymd');
+		// $kode_terakhir = $this->barangkeluar_m->getMax('barang_keluar','id_barang_keluar', $kode);
+		// $kode_tambah = substr($kode_terakhir, -5, 5);
+		// $kode_tambah++;
+		// $number = str_pad($kode_tambah, 5, '0', STR_PAD_LEFT); 
 
 			$kode = 'T-BK-' . date('ymd');
 			$kode_terakhir = $this->barangkeluar_m->getMax('barang_keluar','id_barang_keluar', $kode);
@@ -81,6 +47,7 @@ class Barangkeluar extends CI_Controller{
 		
 	}
 
+	//transaksi default
 	public function transaksi(){
 		date_default_timezone_set("Asia/Jakarta");
 		$total_harga = $this->input->post('a');
@@ -88,39 +55,41 @@ class Barangkeluar extends CI_Controller{
 		foreach ($this->cart->contents() as $key) {
 
 			$id = $key['id'];
+			$bcd = $key['barcode'];
 			$jml = $this->cart->total_items();
+			$unt = $key['unit'];
 			$prc = $key['price']*$key['qty'];
+
+		$queryunit = $this->barangkeluar_m->get_unit($bcd, $unt)->row();
 
 		$detail = [
 			'id_barang_keluar' => $this->input->post('id_barang_keluar'),
-			'barcode' => $id,
+			'barcode' => $bcd,
+			'unit' => $queryunit->unit_id,
 			'jumlah' => $key['qty'],
 			'harga' => $prc,
 			'tanggal_keluar' => date('Y-m-d H:i:s'),
 		];
 
+		// $barang = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
+		$barang = $this->barangkeluar_m->get_brgdet($bcd, $unt)->row();
 
-		$barang = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
-
-		$stokbarang = $barang->stock;
+		$stokbarang = $barang->jumlah_stok;
 		$totalstok = $stokbarang-$key['qty'];
 
-		$this->barangkeluar_m->updatestok($id, $totalstok);
+		$this->barangkeluar_m->updatestok($bcd, $queryunit->unit_id, $totalstok);
 
 		$this->db->insert('detail_barang_keluar', $detail);
 
-			# code...
 		}
 		
 		$data = [
 			'id_barang_keluar' => $this->input->post('id_barang_keluar'),
-			'barcode' => $id,
 			'tanggal_keluar' => date('Y-m-d H:i:s'),
 			'jumlah_keluar' => $jml,
 			'harga' => $total_harga,
 		];
 			$this->barangkeluar_m->simpan_barang($data);
-
 
 			$this->cart->destroy();
 			redirect('barangkeluar');
@@ -130,11 +99,14 @@ class Barangkeluar extends CI_Controller{
 	public function update_cart(){
 
 		$qty = $this->input->post('jumlah_brg');
+		$unit = $this->input->post('unt_brg');
 		$id = $this->input->post('id_brg');
 
-		$get = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
+		$queryunit = $this->barangkeluar_m->get_unit($id, $unit)->row();
 
-		$cek = $get->stock;
+		$get = $this->barangkeluar_m->get_brgup($id, $queryunit->unit_id)->row();
+
+		$cek = $get->jumlah_stok;
 
 		if($qty > $cek){
 			$this->session->set_flashdata('error', 'jumlah tidak memadai');
@@ -163,14 +135,41 @@ class Barangkeluar extends CI_Controller{
 
 	public function add_cart()
 	{
+		//default
+		//parameter barcode
+		// if(!empty($this->uri->segment(3))){
+		// 	$id= $this->uri->segment(3);
+		// 	$get = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
+		// 	$data = array(
+		// 		'id' => $get->barcode,
+		// 		'name' => $get->name,
+		// 		'price' => $get->price,
+		// 		'qty' => 1
+		// 	);
+		// 	if($get->stock < 5){
+		// 	$this->session->set_flashdata('error', "Stok kurang dari 5, tidak bisa melanjutkan Transaksi");
+		// 	redirect('barangkeluar/add');
+		// 	}else{
+		// 	$this->cart->insert($data);
+		// 	}
+		// 	redirect('barangkeluar/add');
+		// }
+
+		//test dev
 		if(!empty($this->uri->segment(3))){
-			$id= $this->uri->segment(3);
-			$get = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
+			$id = $this->uri->segment(3);
+			$idstk = $this->uri->segment(4);
+
+			// $get = $this->barangkeluar_m->get_where('p_item', array('barcode' => $id))->row();
+			$get = $this->barangkeluar_m->get_brgmodal($id, $idstk)->row();
+			$auto = count($this->cart->contents());
 
 			$data = array(
-				'id' => $get->barcode,
+				'id' => $auto+1,
+				'barcode' => $get->barcode,
 				'name' => $get->name,
-				'price' => $get->price,
+				'unit' => $get->unit_name,
+				'price' => $get->hargajual,
 				'qty' => 1
 			);
 			if($get->stock < 5){
@@ -300,8 +299,8 @@ class Barangkeluar extends CI_Controller{
 	       <td>'.$row->barcode.'</td>
 	       <td>'.$row->name.'</td>
 	       <td>'.$row->jumlah.'</td>
-	       <td>'.$row->price.'</td>
-	       <td>'.$row->harga.'</td>
+	       <td>'.$row->hargajual.'</td>
+	       <td>'.($row->hargajual * $row->jumlah).'</td>
 	      </tr>
 	    ';
 	   }

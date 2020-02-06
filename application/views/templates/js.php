@@ -53,24 +53,89 @@
 <script src="<?= site_url(); ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= site_url(); ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- sweet alert -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script><!-- 
+<script src="cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
 
 <script>
   $(function () {
     $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
+    // $('#example2').DataTable({
+    //   "paging": true,
+    //   "lengthChange": false,
+    //   "searching": false,
+    //   "ordering": true,
+    //   "info": true,
+    //   "autoWidth": false,
+    // });
   });
 </script>
+<script>
+var ctx = document.getElementById('brgkeluarcrt').getContext('2d');
+
+var kjanuari = $('#outjanuari').val();
+var kfebruari = $('#outfebruari').val();
+var kmaret = $('#outmaret').val();
+var kapril = $('#outapril').val();
+var kmei = $('#outmei').val();
+var kjuni = $('#outjuni').val();
+var kjuli = $('#outjuli').val();
+var kagustus = $('#outagustus').val();
+var kseptember = $('#outseptember').val();
+var koktober = $('#outoktober').val();
+var knovember = $('#outnovember').val();
+var kdesember = $('#outdesember').val();
 
 
-<!-- js untuk grafik barang masuk -->
+
+var brgmasukcrt = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Januari', 'Februari', 'Maret', 'Appril', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+        datasets: [{
+            label: 'Transaksi Barang keluar',
+            data: [kjanuari, kfebruari, kmaret, kapril, kmei, kjuni, kjuli, kagustus,kseptember, koktober, knovember, kdesember],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
 <script>
 var ctx = document.getElementById('brgmasukcrt').getContext('2d');
 var mjanuari = $('#inpjanuari').val();
@@ -84,67 +149,7 @@ var magustus = $('#inpagustus').val();
 var mseptember = $('#inpseptember').val();
 var moktober = $('#inpoktober').val();
 var mnovember = $('#inpnovember').val();
-var mdesember =$('#inpdesember').val();
-
-var brgmasukcrt = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Januari', 'Februari', 'Maret', 'Appril', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-        datasets: [{
-            label: 'Transaksi Barang Masuk',
-            data: [mjanuari, mfebruari, mmaret, mapril, mmei, mjuni, mjuli, magustus, mseptember, moktober, mnovember, mdesember],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(213, 191, 238, 0.9)',
-                'rgba(227, 216, 201, 1)',
-                'rgba(253, 196, 196, 1)',
-                'rgba(235, 248, 180, 1)',
-                'rgba(194, 242, 250, 1)',
-                'rgba(55, 156, 190, 0.47)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-</script>
-
-<!-- js untuk grqafik barang keluar -->
-<script>
-var ctx = document.getElementById('brgkeluarcrt').getContext('2d');
-var kjanuari = $('#outjanuari').val();
-var kfebruari = $('#outfebruari').val();
-var kmaret = $('#outmaret').val();
-var kapril = $('#outapril').val();
-var kmei = $('#outmei').val();
-var kjuni = $('#outjuni').val();
-var kjuli = $('#outjuli').val();
-var kagustus = $('#outagustus').val();
-var kseptember = $('#outseptember').val();
-var koktober = $('#outoktober').val();
-var knovember = $('#outnovember').val();
-var kdesember =$('#outdesember').val();
+var mdesember = $('#inpdesember').val();
 
 var brgkeluarcrt = new Chart(ctx, {
     type: 'bar',
@@ -152,7 +157,7 @@ var brgkeluarcrt = new Chart(ctx, {
         labels: ['Januari', 'Februari', 'Maret', 'Appril', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
         datasets: [{
             label: 'Transaksi Barang Masuk',
-            data: [kjanuari, kfebruari, kmaret, kapril, kmei, kjuni, kjuli, kagustus, kseptember, koktober, knovember, kdesember],
+            data: [mjanuari, mfebruari, mmaret, mapril, mmei,mjuni, mjuli, magustus ,mseptember ,moktober , mnovember, mdesember],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -160,20 +165,26 @@ var brgkeluarcrt = new Chart(ctx, {
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(255, 159, 64, 0.2)',
-                'rgba(213, 191, 238, 0.9)',
-                'rgba(227, 216, 201, 1)',
-                'rgba(253, 196, 196, 1)',
-                'rgba(235, 248, 180, 1)',
-                'rgba(194, 242, 250, 1)',
-                'rgba(55, 156, 190, 0.47)'
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
+                'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
             ],
             borderWidth: 1
         }]
@@ -191,12 +202,13 @@ var brgkeluarcrt = new Chart(ctx, {
 </script>
 
 
+<!-- detail transaksi keluar -->
 <script type="text/javascript">
     function datatransaksi($trbarang) {
       var query = $trbarang;
 
       $.ajax({
-        url:"<?php echo base_url(); ?>Barangkeluar/fetch",
+        url:"<?= base_url(); ?>Barangkeluar/fetch",
         method:"POST",
         data:{query:query},
         success:function(data) {
@@ -204,6 +216,32 @@ var brgkeluarcrt = new Chart(ctx, {
         }
       })
     }
+</script>
+
+<!-- detail transaksi masuk -->
+<script type="text/javascript">
+    function datatransaksimasuk($trbarangmasuk) {
+      var query = $trbarangmasuk;
+
+      $.ajax({
+        url:"<?= base_url(); ?>Barangmasuk/aho",
+        method:"POST",
+        data:{query:query},
+        success:function(data) {
+            $('#returndatatransaksimasuk').html(data);
+        }
+      })
+    }
+</script>
+
+<!-- detail item -->
+<script type="text/javascript">
+  function dataitem($item){
+    var query = $item;
+
+    $('#returnitems').html(query)
+    $('#returnitem').val(query)
+  }
 </script>
 
 <!-- Cari Tanggal masuk -->
@@ -271,12 +309,12 @@ var brgkeluarcrt = new Chart(ctx, {
       }
     })
 
-    $('#search-data-bulan-dua').on('click', function(){
+    $('#search-data-bulan-keluar').on('click', function(){
       var search = $('#bulan_keluar').val()
       if(search != ''){
         console.log(search)
         caribulankeluar(search)
-      }else{
+      } else {
         $('#returnlaporanbulankeluar').html('')
       }
     })
@@ -310,7 +348,7 @@ var brgkeluarcrt = new Chart(ctx, {
   })
 </script>
 
-<!-- laba -->
+<!-- function total laba -->
 <script type="text/javascript">
   $(document).ready(function() {
 
@@ -320,20 +358,17 @@ var brgkeluarcrt = new Chart(ctx, {
       const jual = $('#total-jual');
       const beli = $('#total-beli');
       const ket = $('.ket');
-     
       if(nilai !== ''){
         $.ajax({
           url: "<?php echo base_url(); ?>Laporan/totallaba",
           type: 'post',
           dataType: 'json',
           data: {search: nilai},
-          
           success: res => {
             laba.val(res.laba);
             jual.val(res.penjualan);
             beli.val(res.pembelian);
-            ket.text(res.keterangan);
-            console.log(laba)
+            ket.text(res.keterangan)
           }
         })
       } else{
@@ -344,9 +379,103 @@ var brgkeluarcrt = new Chart(ctx, {
       }
 
     });
+
+    // $('#search-laba-bulanan').on('click', function(){
+    //   var search = $('#input-bulanan').val()
+    //   if(search != ''){
+    //     console.log(search)
+    //     caripembelian(search)
+    //     caripenjualan(search)
+    //     totallaba(search)
+
+    //     // var beli = $('#total-beli').val();
+    //     // var jual = $('#total-jual').val();
+    //     // var totallaba = jual-beli;
+    //     // console.log(totallaba)
+    //     // $('#total-laba').val(totallaba);
+    //   }
+    // })
   });
+
+  // function caripembelian($search) {
+  //   var search = $search;
+
+  //   $.ajax({
+  //     url:"<?php echo base_url(); ?>Laporan/totalpembelian",
+  //     method:"POST",
+  //     data:{search:search},
+  //     success:function(data){
+  //       $('#total-beli').val(data);
+  //     }
+  //   })
+  // }
+
+  // function caripenjualan($search) {
+  //   var search = $search;
+
+  //   $.ajax({
+  //     url:"<?php echo base_url(); ?>Laporan/totalpenjualan",
+  //     method:"POST",
+  //     data:{search:search},
+  //     success:function(data){
+  //       $('#total-jual').val(data);
+  //     }
+  //   })
+  // }
+
+  // function totallaba($search) {
+  //   var search = $search;
+
+  //   $.ajax({
+  //     url:"<?php echo base_url(); ?>Laporan/totallaba",
+  //     method:"POST",
+  //     data:{search:search},
+  //     success:function(data){
+  //       $('#total-laba').val(data);
+  //     }
+  //   })
+  // }
+
 </script>
 
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#btn-tambah-form").click(function(){ // Ketika tombol Tambah Data Form di klik
+      var jumlah = parseInt($("#jumlah-form").val()); // Ambil jumlah data form pada textbox jumlah-form
+      var nextform = jumlah + 1; // Tambah 1 untuk jumlah form n
+    $("#insert-form").append(
+      "<div class='form-group'>"+
+            "<label>Unit *</label>"+
+            "<select name='unit[]' class='form-control'>"+
+              "<option value=''>Pilih</option>"+
+              "<?php foreach($data_units->result() as $dtuns) { ?>"+
+                "<option value='<?php echo $dtuns->unit_id?>'><?php echo $dtuns->name?></option>"+
+              "<?php } ?>"+
+            "</select>"+
+          "</div>" +
+      "<div class='form-group'>" +
+      "<label>Harga Beli *</label>" +
+      "<input type='number' value='' name='hargabeli[]' class='form-control' required>" +
+      "</div>" +
+      "<div class='form-group'>" +
+      "<label>Harga Beli *</label>" +
+      "<input type='number' value='' name='hargajual[]' class='form-control' required>" +
+      "</div>" +
+      "<div class='form-group'>" +
+      "<label>Keterangan Pcs *</label>" +
+      "<input type='number' value='' name='keteranganpcs[]' class='form-control' required>" +
+      "</div>"
+      );
+    $("#jumlah-form").val(nextform); // Ubah value textbox jumlah-form dengan variabel nextform
+    });
+    // Buat fungsi untuk mereset form ke semula
+    $("#btn-reset-form").click(function(){
+      $("#insert-form").html(""); // Kita kosongkan isi dari div insert-form
+      $("#jumlah-form").val("1"); // Ubah kembali value jumlah form menjadi 1
+    });
+  })
+</script>
 
 </body>
 </html>

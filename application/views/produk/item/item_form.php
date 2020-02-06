@@ -37,24 +37,45 @@
 						<label for="item_name">Nama Produk *</label>
 						<input type="text" value="<?=$row->name?>" name="item_name" id="item_name" class="form-control" required>
 					</div>
+
 					<div class="form-group">
 						<label>Kategori *</label>
-						<?php echo form_dropdown('category', $data_category, $selectedkategori,
-							['class' => 'form-control', 'required' => 'required']); ?>
+						<select name="category" class="form-control">
+							<option value="">Pilih</option>
+							<?php foreach($data_categorys->result() as $dctgs) { ?>
+								<option value="<?php echo $dctgs->category_id?>" <?php if ($dctgs->name == $row->category_name) { echo "selected"; }?> ><?php echo $dctgs->name?></option>
+							<?php } ?>
+						</select>
 					</div>
-					<div class="form-group">
-						<label>Unit *</label>
-						<?php echo form_dropdown('unit', $data_unit, $selectedunit, 
-							['class' => 'form-control', 'required' => 'required']); ?>
-					</div>
-					<div class="form-group">
-						<label>Harga Beli*</label>
-						<input type="number" value="<?=$row->price_in?>" name="price_in" class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Harga Jual*</label>
-						<input type="number" value="<?=$row->price?>" name="price" class="form-control" required>
-					</div>
+
+					<?php if($page == 'add') { ?>
+						<div class="form-group">
+							<label>Unit *</label>
+							<select name="unit[]" class="form-control">
+								<option value="">Pilih</option>
+								<?php foreach($data_units->result() as $dtuns) { ?>
+									<option value="<?php echo $dtuns->unit_id?>"><?php echo $dtuns->name?></option>
+								<?php } ?>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Harga Beli *</label>
+							<input type="number" value="" name="hargabeli[]" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Harga jual *</label>
+							<input type="number" value="" name="hargajual[]" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Keterangan Pcs *</label>
+							<input type="number" value="" name="keteranganpcs[]" class="form-control" required>
+						</div>
+						<div id="insert-form"></div>
+						<button type="button" id="btn-tambah-form">Tambah Data Form</button>
+						<button type="button" id="btn-reset-form">Reset Form</button><br><br>
+						
+					<?php } ?>
+
 					<div class="form-group">
 						<button type="submit" name="<?=$page ?>" class="btn btn-success btn-flat">
 							<i class="fa fa-check"></i>Save
@@ -62,7 +83,9 @@
 						<button type="reset" class="btn btn-flat">Reset</button>
 					</div>
 				</form>
+				<input type="hidden" id="jumlah-form" value="1">
 			</div>
 		</div>
 	</div>
 </div>
+
