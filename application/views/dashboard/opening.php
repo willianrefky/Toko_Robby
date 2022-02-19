@@ -113,7 +113,7 @@
                           <?php else : ?>
                               <tr>
                                   <td colspan="3" class="text-center">
-                                      Tidak ada barang stok minim
+                                      Tidak ada stok barang yang minim
                                   </td>
                               </tr>
                           <?php endif; ?>

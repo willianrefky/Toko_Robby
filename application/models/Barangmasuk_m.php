@@ -88,13 +88,14 @@ class Barangmasuk_m extends CI_Model{
 
 	public function getBarangMasuk($limit = null)
 	{
-		$this->db->select('barang_masuk.id_barang_masuk, barang_masuk.jumlah_masuk, barang_masuk.tanggal_masuk, p_item.name');
-		$this->db->join('p_item', 'p_item.barcode = stok.barcode');
-		 if ($limit != null) {
+		$this->db->select('dbm.id_barang_masuk, dbm.tanggal_masuk as tanggal_masuk, dbm.jumlah as jumlah_masuk, p_item.name as name');
+		$this->db->from('detail_barang_masuk dbm');
+		$this->db->join('barang_masuk bm', 'dbm.id_barang_masuk = bm.id_barang_masuk');
+		$this->db->join('p_item', 'p_item.barcode = dbm.barcode');
+		if ($limit != null) {
             $this->db->limit($limit);
         }
-		$this->db->order_by('id_barang_masuk', 'DESC');
-		return $this->db->get('barang_masuk')->result_array();
+		return $this->db->order_by('dbm.id_barang_masuk', 'DESC')->get()->result_array();
 	}
 
 	public function grafik($bulan)

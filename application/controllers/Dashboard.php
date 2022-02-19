@@ -20,6 +20,7 @@ class Dashboard extends CI_Controller {
             'b_masuk' => $this->barangmasuk_m->sum('barang_masuk', 'jumlah_masuk'),
             'b_keluar' => $this->barangkeluar_m->count('barang_keluar'),
             'barang_min' =>$this->item_m->min('stok', 'jumlah_stok', 5),
+            'lima_barang_masuk' => $this->barangmasuk_m->getBarangMasuk(5),
             'mjanuari' => $this->barangmasuk_m->grafik('01')->row_array(),
             'mfebruari' => $this->barangmasuk_m->grafik('02')->row_array(),
             'mmaret' => $this->barangmasuk_m->grafik('03')->row_array(),

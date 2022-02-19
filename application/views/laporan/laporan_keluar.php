@@ -34,7 +34,7 @@
                   <div class="form-group">
                     <label>Tanggal Barang Keluar*</label>
                     <div class="input-group">
-                      <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar">  
+                      <input type="date" class="form-control" name="tanggal_keluar" id="tanggal_keluar" required>  
                         <div class="input-group-append">
                           <a class="btn btn-primary btn-sm text-white pt-2" id="search-data-tanggal-keluar"><i class="fa fa-search"></i> Cari</a>
                         </div>
